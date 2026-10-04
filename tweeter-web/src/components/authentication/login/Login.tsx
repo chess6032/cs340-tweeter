@@ -8,6 +8,7 @@ import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import { AuthToken, FakeData, User } from "tweeter-shared";
 import { ToastActionsContext } from "../../toaster/ToastContexts";
 import { ToastType } from "../../toaster/Toast";
+import AuthenticationFields from "../AuthenticationFields";
 
 interface Props {
   originalUrl?: string;
@@ -27,13 +28,7 @@ const Login = (props: Props) => {
     return !alias || !password;
   };
 
-  // FIXME: code dupe?
-  const loginOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key == "Enter" && !checkSubmitButtonStatus()) {
-      doLogin();
-    }
-  };
-
+  // FIXME: code dupe with Register::doRegister() ?
   const doLogin = async () => {
     try {
       setIsLoading(true);
@@ -75,31 +70,7 @@ const Login = (props: Props) => {
   const inputFieldFactory = () => {
     return (
       <>
-        {/* FIXME: code duplication: alias field */}
-        <div className="form-floating">
-          <input
-            type="text"
-            className="form-control"
-            size={50}
-            id="aliasInput"
-            placeholder="name@example.com"
-            onKeyDown={loginOnEnter}
-            onChange={(event) => setAlias(event.target.value)}
-          />
-          <label htmlFor="aliasInput">Alias</label>
-        </div>
-        {/* FIXME: code duplication: alias field */}
-        <div className="form-floating mb-3">
-          <input
-            type="password"
-            className="form-control bottom"
-            id="passwordInput"
-            placeholder="Password"
-            onKeyDown={loginOnEnter}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <label htmlFor="passwordInput">Password</label>
-        </div>
+        <AuthenticationFields onEnterCallback={doLogin} checkSubmittedButtonStatus={checkSubmitButtonStatus}/>
       </>
     );
   };
