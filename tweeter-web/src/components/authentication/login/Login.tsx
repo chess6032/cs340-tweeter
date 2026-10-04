@@ -73,7 +73,7 @@ const Login = (props: Props) => {
         <AuthenticationFields
           setAlias={setAlias}
           setPassword={setPassword}
-          onEnterCallback={doLogin} 
+          doOnEnter={doLogin} 
           checkSubmittedButtonStatus={checkSubmitButtonStatus}
         />
       </>

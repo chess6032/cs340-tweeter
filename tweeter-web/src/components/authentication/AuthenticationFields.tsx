@@ -1,19 +1,19 @@
 interface Props {
   setAlias: React.Dispatch<React.SetStateAction<string>>,
   setPassword: React.Dispatch<React.SetStateAction<string>>,
-  onEnterCallback: () => Promise<void>,
+  doOnEnter: () => Promise<void>,
   checkSubmittedButtonStatus: () => boolean
 }
 
 const AuthenticationFields = (props: Props) => {
-  const generateOnKeyDownCallback = (callback: () => Promise<void>, checkSubmittedButtonStatus: () => boolean) =>
+  const generateOnKeyDownCallback = (doOnEnter: () => Promise<void>, checkSubmittedButtonStatus: () => boolean) =>
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key == "Enter" && !checkSubmittedButtonStatus()) {
-        callback();
+        doOnEnter();
       }
     };
 
-  const onKeyDownCallback = generateOnKeyDownCallback(props.onEnterCallback, props.checkSubmittedButtonStatus);
+  const onKeyDownCallback = generateOnKeyDownCallback(props.doOnEnter, props.checkSubmittedButtonStatus);
 
   return (
     <>
