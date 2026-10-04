@@ -5,7 +5,7 @@ interface Props {
 
 const AuthenticationFields = (props: Props) => {
   return (
-
+    <span>stub</span>
   );
 }
 
