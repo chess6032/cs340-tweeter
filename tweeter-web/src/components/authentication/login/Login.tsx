@@ -70,7 +70,12 @@ const Login = (props: Props) => {
   const inputFieldFactory = () => {
     return (
       <>
-        <AuthenticationFields onEnterCallback={doLogin} checkSubmittedButtonStatus={checkSubmitButtonStatus}/>
+        <AuthenticationFields
+          setAlias={setAlias}
+          setPassword={setPassword}
+          onEnterCallback={doLogin} 
+          checkSubmittedButtonStatus={checkSubmitButtonStatus}
+        />
       </>
     );
   };
