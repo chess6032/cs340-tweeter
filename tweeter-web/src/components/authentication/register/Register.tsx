@@ -36,6 +36,7 @@ const Register = () => {
     );
   };
 
+  // FIXME: code dupe?
   const registerOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key == "Enter" && !checkSubmitButtonStatus()) {
       doRegister();
@@ -158,6 +159,7 @@ const Register = () => {
           />
           <label htmlFor="lastNameInput">Last Name</label>
         </div>
+        {/* FIXME: code duplication: alias field */}
         <div className="form-floating">
           <input
             type="text"
@@ -170,6 +172,7 @@ const Register = () => {
           />
           <label htmlFor="aliasInput">Alias</label>
         </div>
+        {/* FIXME: code duplication: password field */}
         <div className="form-floating">
           <input
             type="password"

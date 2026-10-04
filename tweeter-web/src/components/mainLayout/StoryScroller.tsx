@@ -135,6 +135,7 @@ const StoryScroller = () => {
             key={index}
             className="row mb-3 mx-0 px-0 border rounded bg-white"
           >
+            {/* FIXME: code duplication */}
             <div className="col bg-light mx-0 px-0">
               <div className="container px-0">
                 <div className="row mx-0 px-0">

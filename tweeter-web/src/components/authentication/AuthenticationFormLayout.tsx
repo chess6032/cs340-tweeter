@@ -47,6 +47,7 @@ const AuthenticationFormLayout = (props: Props) => {
           <h1 className="h4 mb-3 fw-normal">Or</h1>
           <h1 className="h5 mb-3 fw-normal">{props.oAuthHeading}</h1>
 
+        {/* FIXME: Refactor OAuth buttons into separate component */}
           <div className="text-center mb-3">
             <button
               type="button"

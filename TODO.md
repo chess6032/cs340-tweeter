@@ -1,0 +1,15 @@
+# TODO
+
+## Milestone 1
+
+### Part 1
+
+1. Remove code duplication between `StoryScroller.tsx` and `FeedScroller.tsx`.
+    - [ ] Create `StatusItem` component.
+    - [ ] Refactor `StoryScroller` and `FeedScroller` to use `StatusItem`.
+2. Remove code duplication between `Login.tsx` and `Register.tsx`'s field factories.
+    - [ ] Create `AuthenticationFields` component.
+    - [ ] Refactor `Login` and `Register`'s field factories to use `AuthenticationFields`.
+3. Refactor `AuthenticationFormLayout.tsx`: Move OAuth button logic into a separate component.
+    - [ ] Create `OAuth` component.
+    - [ ] Refactor `AuthenticationFormLayout` to use `OAuth`.

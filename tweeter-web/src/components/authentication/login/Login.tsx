@@ -27,6 +27,7 @@ const Login = (props: Props) => {
     return !alias || !password;
   };
 
+  // FIXME: code dupe?
   const loginOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key == "Enter" && !checkSubmitButtonStatus()) {
       doLogin();
@@ -74,6 +75,7 @@ const Login = (props: Props) => {
   const inputFieldFactory = () => {
     return (
       <>
+        {/* FIXME: code duplication: alias field */}
         <div className="form-floating">
           <input
             type="text"
@@ -86,6 +88,7 @@ const Login = (props: Props) => {
           />
           <label htmlFor="aliasInput">Alias</label>
         </div>
+        {/* FIXME: code duplication: alias field */}
         <div className="form-floating mb-3">
           <input
             type="password"
