@@ -7,11 +7,7 @@ import {
   UserInfoActionsContext,
   UserInfoContext,
 } from "../userInfo/UserInfoContexts";
-
-interface Props {
-  status: Status;
-  featurePath: string;
-}
+import Props from "./StatusItem.types";
 
 const Post = (props: Props) => {
   const { displayToast } = useContext(ToastActionsContext);

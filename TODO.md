@@ -5,7 +5,7 @@
 ### Part 1
 
 1. Remove code duplication between `StoryScroller.tsx` and `FeedScroller.tsx`.
-    - [ ] Create `StatusItem` component.
+    - [X] Create `StatusItem` component.
     - [ ] Refactor `StoryScroller` and `FeedScroller` to use `StatusItem`.
 2. Remove code duplication between `Login.tsx` and `Register.tsx`'s field factories.
     - [ ] Create `AuthenticationFields` component.
