@@ -12,8 +12,6 @@ import Login from "./components/authentication/login/Login";
 import Register from "./components/authentication/register/Register";
 import MainLayout from "./components/mainLayout/MainLayout";
 import Toaster from "./components/toaster/Toaster";
-import FeedScroller from "./components/mainLayout/FeedScroller";
-import StoryScroller from "./components/mainLayout/StoryScroller";
 import UserItemScroller from "./components/mainLayout/UserItemScroller";
 import { AuthToken, FakeData, Status, User } from "tweeter-shared";
 import StatusItemScroller from "./components/mainLayout/StatusItemScroller";
