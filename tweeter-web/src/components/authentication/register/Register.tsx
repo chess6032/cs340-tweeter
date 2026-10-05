@@ -9,7 +9,7 @@ import { AuthToken, FakeData, User } from "tweeter-shared";
 import { ToastActionsContext } from "../../toaster/ToastContexts";
 import { Buffer } from "buffer";
 import { ToastType } from "../../toaster/Toast";
-import AuthenticationFields, { generateOnKeyDownCallback } from "../AuthenticationFields";
+import AuthenticationFields from "../AuthenticationFields";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -35,6 +35,12 @@ const Register = () => {
       !imageUrl ||
       !imageFileExtension
     );
+  };
+
+  const registerOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key == "Enter" && !checkSubmitButtonStatus()) {
+      doRegister();
+    }
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -104,8 +110,6 @@ const Register = () => {
       setIsLoading(false);
     }
   };
-
-  const registerOnEnter = generateOnKeyDownCallback(doRegister, checkSubmitButtonStatus);
 
   const register = async (
     firstName: string,

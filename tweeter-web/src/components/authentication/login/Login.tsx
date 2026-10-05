@@ -8,7 +8,7 @@ import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import { AuthToken, FakeData, User } from "tweeter-shared";
 import { ToastActionsContext } from "../../toaster/ToastContexts";
 import { ToastType } from "../../toaster/Toast";
-import AuthenticationFields, { generateOnKeyDownCallback } from "../AuthenticationFields";
+import AuthenticationFields from "../AuthenticationFields";
 
 interface Props {
   originalUrl?: string;
@@ -27,6 +27,12 @@ const Login = (props: Props) => {
   const checkSubmitButtonStatus = (): boolean => {
     return !alias || !password;
   };
+
+  const loginOnEnter = (event: React.KeyboardEvent<HTMLElement>): void => {
+    if (event.key == "Enter" && !checkSubmitButtonStatus()) {
+      doLogin();
+    }
+  }
 
   // FIXME: code dupe with Register::doRegister() ?
   const doLogin = async () => {
@@ -68,12 +74,13 @@ const Login = (props: Props) => {
   };
 
   const inputFieldFactory = () => {
+
     return (
       <>
         <AuthenticationFields
           setAlias={setAlias}
           setPassword={setPassword}
-          onKeyDownCallback={generateOnKeyDownCallback(doLogin, checkSubmitButtonStatus)}
+          onKeyDownCallback={loginOnEnter}
         />
       </>
     );

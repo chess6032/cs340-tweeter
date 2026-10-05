@@ -4,13 +4,6 @@ interface Props {
   onKeyDownCallback: (event: React.KeyboardEvent<HTMLElement>) => void
 }
 
-const generateOnKeyDownCallback = (doOnEnter: () => Promise<void>, checkSubmittedButtonStatus: () => boolean) =>
-    (event: React.KeyboardEvent<HTMLElement>) => {
-      if (event.key == "Enter" && !checkSubmittedButtonStatus()) {
-        doOnEnter();
-      }
-    };
-
 const AuthenticationFields = (props: Props) => {
   return (
     <>
@@ -42,4 +35,3 @@ const AuthenticationFields = (props: Props) => {
 }
 
 export default AuthenticationFields;
-export { generateOnKeyDownCallback };
