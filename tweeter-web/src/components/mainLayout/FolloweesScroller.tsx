@@ -25,6 +25,14 @@ const FolloweesScroller = () => {
   const { displayedUser, authToken } = useContext(UserInfoContext);
   const { setDisplayedUser } = useContext(UserInfoActionsContext);
   const { displayedUser: displayedUserAliasParam } = useParams();
+  
+  const getUser = async (
+    authToken: AuthToken,
+    alias: string
+  ): Promise<User | null> => {
+    // TODO: Replace with the result of calling server
+    return FakeData.instance.findUserByAlias(alias);
+  };
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
@@ -74,6 +82,8 @@ const FolloweesScroller = () => {
     }
   };
 
+  // NOTE: code dupe w/ FollowersScroller exists here, but it is only
+  // temporary while we use dummy data.
   const loadMoreFollowees = async (
     authToken: AuthToken,
     userAlias: string,
@@ -82,14 +92,6 @@ const FolloweesScroller = () => {
   ): Promise<[User[], boolean]> => {
     // TODO: Replace with the result of calling server
     return FakeData.instance.getPageOfUsers(lastFollowee, pageSize, userAlias);
-  };
-
-  const getUser = async (
-    authToken: AuthToken,
-    alias: string
-  ): Promise<User | null> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.findUserByAlias(alias);
   };
 
   return (

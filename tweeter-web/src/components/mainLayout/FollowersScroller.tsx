@@ -82,6 +82,8 @@ const FollowersScroller = () => {
     }
   };
 
+  // NOTE: code dupe w/ FolloweeScroller exists here, but it is only
+  // temporary while we use dummy data.
   const loadMoreFollowers = async (
     authToken: AuthToken,
     userAlias: string,
