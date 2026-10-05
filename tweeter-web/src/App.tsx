@@ -90,14 +90,16 @@ const AuthenticatedRoutes = () => {
         <Route index element={<Navigate to={`/feed/${displayedUser!.alias}`} />} />
         {/* FIXME: replace these two with StatusItemScroller */}
         <Route 
+          key={`feed-${displayedUser!.alias}`}
           path="feed/:displayedUser" 
           element={<StatusItemScroller
             itemDescription="feed"
             featurePath="/feed"
             loadMore={loadMoreFeedItems}
-          />} 
-        />
+            />} 
+            />
         <Route 
+          key={`story-${displayedUser!.alias}`}
           path="story/:displayedUser" 
           element={<StatusItemScroller 
             itemDescription="story"
