@@ -1,8 +1,38 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastType } from "../toaster/Toast";
 import { useContext } from "react";
 import { ToastActionsContext } from "../toaster/ToastContexts";
+
+interface ButtonProps {
+  platform: IconName,
+  platformTitle: string,
+  displayInfoMessage: any
+}
+
+const OAuthButton = (props: ButtonProps) => {
+  const { platform, platformTitle } = props;
+
+  return (
+    <button
+      type="button"
+      className="btn btn-link btn-floating mx-1"
+      onClick={() =>
+        props.displayInfoMessage(
+          `${platformTitle} registration is not implemented.`
+        )
+      }
+    >
+      <OverlayTrigger
+        placement="top"
+        overlay={<Tooltip id={`${platform}Tooltip`}>{platformTitle}</Tooltip>}
+      >
+        <FontAwesomeIcon icon={["fab", platform]} />
+      </OverlayTrigger>
+    </button>
+  );
+}
 
 const OAuth = () => {
   const { displayToast } = useContext(ToastActionsContext);
@@ -19,22 +49,11 @@ const OAuth = () => {
 
   return (
     <div className="text-center mb-3">
-      <button
-        type="button"
-        className="btn btn-link btn-floating mx-1"
-        onClick={() =>
-          displayInfoMessageWithDarkBackground(
-            "Google registration is not implemented."
-          )
-        }
-      >
-        <OverlayTrigger
-          placement="top"
-          overlay={<Tooltip id="googleTooltip">Google</Tooltip>}
-        >
-          <FontAwesomeIcon icon={["fab", "google"]} />
-        </OverlayTrigger>
-      </button>
+      <OAuthButton 
+        platform={"google"} 
+        platformTitle={"Google"} 
+        displayInfoMessage={displayInfoMessageWithDarkBackground} 
+      />
 
       <button
         type="button"
