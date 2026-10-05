@@ -16,11 +16,7 @@ const getUser = async (
   return FakeData.instance.findUserByAlias(alias);
 };
 
-interface Props {
-  featurePath: string
-}
-
-const useUserNavigation = (props: Props) => {
+const useUserNavigation = (featurePath: string) => {
   // FIXME: should these be here, or moved out?
   const navigate = useNavigate();
   const { displayErrorMessage } = useMessageActions();
@@ -39,7 +35,7 @@ const useUserNavigation = (props: Props) => {
       if (toUser) {
         if (!toUser.equals(displayedUser!)) {
           setDisplayedUser(toUser);
-          navigate(`${props.featurePath}/${toUser.alias}`);
+          navigate(`${featurePath}/${toUser.alias}`);
         }
       }
     } catch (error) {

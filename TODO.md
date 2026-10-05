@@ -36,4 +36,4 @@
             - (1) Adding another parameter to the hook, so that it takes in an event *and* a string (featurePath).
                 - *(I opted for this one)*
             - (2) When the event is converted to a string (`event.target.toString()`), it *is* the URL. So you could use RegEx to extract the featurePath out of that.
-    - [ ] Replace instances of `navigateToUser()` with the hook.
+    - [X] Replace instances of `navigateToUser()` with the hook.
