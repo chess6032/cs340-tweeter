@@ -71,8 +71,28 @@ const AuthenticatedRoutes = () => {
         <Route index element={<Navigate to={`/feed/${displayedUser!.alias}`} />} />
         <Route path="feed/:displayedUser" element={<FeedScroller />} />
         <Route path="story/:displayedUser" element={<StoryScroller />} />
-        <Route path="followees/:displayedUser" element={<UserItemScroller itemDescription="followees" featurePath="/followees" loadMore={loadMoreFollowees} />} />
-        <Route path="followers/:displayedUser" element={<UserItemScroller itemDescription="followers" featurePath="/followers" loadMore={loadMoreFollowers} />} />
+        <Route 
+          path="followees/:displayedUser" 
+          element={
+            <UserItemScroller
+              key={`followees-${displayedUser!.alias}`}
+              itemDescription="followees"
+              featurePath="/followees"
+              loadMore={loadMoreFollowees}
+            />
+          } 
+        />
+        <Route 
+          path="followers/:displayedUser"
+          element={
+            <UserItemScroller
+              key={`followers-${displayedUser!.alias}`}
+              itemDescription="followers"
+              featurePath="/followers"
+              loadMore={loadMoreFollowers}
+            />
+          } 
+        />
         <Route path="logout" element={<Navigate to="/login" />} />
         <Route path="*" element={<Navigate to={`/feed/${displayedUser!.alias}`} />} />
       </Route>
