@@ -58,6 +58,7 @@ const FeedScroller = () => {
 
   const loadMoreItems = async (lastItem: Status | null) => {
     try {
+      /* NOTE: DIFFERENT FUNCTION */ 
       const [newItems, hasMore] = await loadMoreFeedItems(
         authToken!,
         displayedUser!.alias,
@@ -71,12 +72,14 @@ const FeedScroller = () => {
     } catch (error) {
       displayToast(
         ToastType.Error,
+        /* NOTE: DIFFERENT ERROR MESSAGE */
         `Failed to load feed items because of exception: ${error}`,
         0
       );
     }
   };
 
+  /* NOTE: DIFFERENT FUNCTION */
   const loadMoreFeedItems = async (
     authToken: AuthToken,
     userAlias: string,
@@ -109,6 +112,7 @@ const FeedScroller = () => {
             key={index}
             className="row mb-3 mx-0 px-0 border rounded bg-white"
           >
+            {/* NOTE: DIFFERENT PATH */}
             <StatusItem status={item} featurePath={'/feed'}/>
           </div>
         ))}

@@ -14,7 +14,7 @@ import MainLayout from "./components/mainLayout/MainLayout";
 import Toaster from "./components/toaster/Toaster";
 import FeedScroller from "./components/mainLayout/FeedScroller";
 import StoryScroller from "./components/mainLayout/StoryScroller";
-import UserItemScroller from "./components/mainLayout/UserItem";
+import UserItemScroller from "./components/mainLayout/UserItemScroller";
 import { AuthToken, FakeData, User } from "tweeter-shared";
 
 const App = () => {
@@ -69,6 +69,7 @@ const AuthenticatedRoutes = () => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route index element={<Navigate to={`/feed/${displayedUser!.alias}`} />} />
+        {/* FIXME: replace these two with StatusItemScroller */}
         <Route path="feed/:displayedUser" element={<FeedScroller />} />
         <Route path="story/:displayedUser" element={<StoryScroller />} />
         <Route 

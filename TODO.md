@@ -13,3 +13,9 @@
 3. Refactor `AuthenticationFormLayout.tsx`: Move OAuth button logic into a separate component.
     - [X] Create `OAuth` component.
     - [X] Refactor `AuthenticationFormLayout` to use `OAuth`.
+
+### Part 2
+
+- [ ] Create `StatusItemScroller` component (to replace `FeedScroller` and `StoryScroller`).
+- [ ] Refactor `App` to use `StatusItemScroller`.
+- [ ] Delete `FeedScroller` and `StoryScroller`.
