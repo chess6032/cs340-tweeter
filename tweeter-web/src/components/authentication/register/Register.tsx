@@ -9,6 +9,7 @@ import { AuthToken, FakeData, User } from "tweeter-shared";
 import { ToastActionsContext } from "../../toaster/ToastContexts";
 import { Buffer } from "buffer";
 import { ToastType } from "../../toaster/Toast";
+import AuthenticationFields, { generateOnKeyDownCallback } from "../AuthenticationFields";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -34,13 +35,6 @@ const Register = () => {
       !imageUrl ||
       !imageFileExtension
     );
-  };
-
-  // FIXME: code dupe?
-  const registerOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key == "Enter" && !checkSubmitButtonStatus()) {
-      doRegister();
-    }
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -84,6 +78,7 @@ const Register = () => {
     return file.name.split(".").pop();
   };
 
+  // FIXME: code dupe with Login::doLogin() ?
   const doRegister = async () => {
     try {
       setIsLoading(true);
@@ -109,6 +104,8 @@ const Register = () => {
       setIsLoading(false);
     }
   };
+
+  const registerOnEnter = generateOnKeyDownCallback(doRegister, checkSubmitButtonStatus);
 
   const register = async (
     firstName: string,
@@ -159,31 +156,11 @@ const Register = () => {
           />
           <label htmlFor="lastNameInput">Last Name</label>
         </div>
-        {/* FIXME: code duplication: alias field */}
-        <div className="form-floating">
-          <input
-            type="text"
-            className="form-control"
-            size={50}
-            id="aliasInput"
-            placeholder="name@example.com"
-            onKeyDown={registerOnEnter}
-            onChange={(event) => setAlias(event.target.value)}
-          />
-          <label htmlFor="aliasInput">Alias</label>
-        </div>
-        {/* FIXME: code duplication: password field */}
-        <div className="form-floating">
-          <input
-            type="password"
-            className="form-control"
-            id="passwordInput"
-            placeholder="Password"
-            onKeyDown={registerOnEnter}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <label htmlFor="passwordInput">Password</label>
-        </div>
+        <AuthenticationFields
+          setAlias={setAlias}
+          setPassword={setPassword}
+          onKeyDownCallback={registerOnEnter}
+        />
         <div className="form-floating mb-3">
           <input
             type="file"

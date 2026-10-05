@@ -1,20 +1,17 @@
 interface Props {
   setAlias: React.Dispatch<React.SetStateAction<string>>,
   setPassword: React.Dispatch<React.SetStateAction<string>>,
-  doOnEnter: () => Promise<void>,
-  checkSubmittedButtonStatus: () => boolean
+  onKeyDownCallback: (event: React.KeyboardEvent<HTMLElement>) => void
 }
 
-const AuthenticationFields = (props: Props) => {
-  const generateOnKeyDownCallback = (doOnEnter: () => Promise<void>, checkSubmittedButtonStatus: () => boolean) =>
+const generateOnKeyDownCallback = (doOnEnter: () => Promise<void>, checkSubmittedButtonStatus: () => boolean) =>
     (event: React.KeyboardEvent<HTMLElement>) => {
       if (event.key == "Enter" && !checkSubmittedButtonStatus()) {
         doOnEnter();
       }
     };
 
-  const onKeyDownCallback = generateOnKeyDownCallback(props.doOnEnter, props.checkSubmittedButtonStatus);
-
+const AuthenticationFields = (props: Props) => {
   return (
     <>
       <div className="form-floating">
@@ -24,7 +21,7 @@ const AuthenticationFields = (props: Props) => {
           size={50}
           id="aliasInput"
           placeholder="name@example.com"
-          onKeyDown={onKeyDownCallback}
+          onKeyDown={props.onKeyDownCallback}
           onChange={(event) => props.setAlias(event.target.value)}
         />
         <label htmlFor="aliasInput">Alias</label>
@@ -35,7 +32,7 @@ const AuthenticationFields = (props: Props) => {
           className="form-control bottom"
           id="passwordInput"
           placeholder="Password"
-          onKeyDown={onKeyDownCallback}
+          onKeyDown={props.onKeyDownCallback}
           onChange={(event) => props.setPassword(event.target.value)}
         />
         <label htmlFor="passwordInput">Password</label>
@@ -45,3 +42,4 @@ const AuthenticationFields = (props: Props) => {
 }
 
 export default AuthenticationFields;
+export { generateOnKeyDownCallback };

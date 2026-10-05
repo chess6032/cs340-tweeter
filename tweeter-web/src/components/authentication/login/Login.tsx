@@ -8,7 +8,7 @@ import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import { AuthToken, FakeData, User } from "tweeter-shared";
 import { ToastActionsContext } from "../../toaster/ToastContexts";
 import { ToastType } from "../../toaster/Toast";
-import AuthenticationFields from "../AuthenticationFields";
+import AuthenticationFields, { generateOnKeyDownCallback } from "../AuthenticationFields";
 
 interface Props {
   originalUrl?: string;
@@ -73,8 +73,7 @@ const Login = (props: Props) => {
         <AuthenticationFields
           setAlias={setAlias}
           setPassword={setPassword}
-          doOnEnter={doLogin} 
-          checkSubmittedButtonStatus={checkSubmitButtonStatus}
+          onKeyDownCallback={generateOnKeyDownCallback(doLogin, checkSubmitButtonStatus)}
         />
       </>
     );
