@@ -28,8 +28,8 @@
     - NOTE: You won't be able to remove `displayToast()` instances in `MessageHooks.ts`, `ToastContext.ts`, nor `ToastInfoProvider.tsx`. Don't worry about these.
 2. Hide `userInfoContext` and `userInfoActionContext` behind `useUserInfo()`/`useUserInfoAction()` hooks.
     - [X] create `useUserInfo()` and `useUserInfoAction()` hooks.
-    - [ ] replace all instances of `userInfoContext` and `userInfoActionContext` with `useUserInfo()` and `useUserInfoAction()` respectively.
-    - (You don't have to change the parameters used, so these hooks will be one-liners, like the `useMessageList()` hook showed in the video.)
+        - (You don't have to change the parameters used, so these hooks will be one-liners, like the `useMessageList()` hook showed in the video.)
+    - [X] replace all instances of `userInfoContext` and `userInfoActionContext` with `useUserInfo()` and `useUserInfoAction()` respectively.
 3. Remove duplicated `navigateToUser()` functions by replacing them with `useUserNavigation()` hook.
     - [ ] Move the logic for `navigateToUser()` and the function it calls into a new `useUserNavigation()` hook. (The hook returns `navigateToUser()`.)
         - You must find a way to let users of this hook modify the `featurePath` it uses. You can do this by either:
