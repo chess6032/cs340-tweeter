@@ -1,8 +1,8 @@
+import { useContext } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { ToastType } from "../toaster/Toast";
-import { useContext } from "react";
 import { ToastActionsContext } from "../toaster/ToastContexts";
 
 interface ButtonProps {
@@ -47,37 +47,23 @@ const OAuth = () => {
     );
   };
 
+  const oAuthButtonParams: Array<[IconName, string]> = [
+    ['google', 'Google'],
+    ['facebook', 'Facebook'],
+    ['twitter', 'Twitter'],
+    ['linkedin', 'LinkedIn'],
+    ['github', 'Github']
+  ]
+
   return (
     <div className="text-center mb-3">
-      <OAuthButton 
-        platform={"google"} 
-        platformDisplay={"Google"} 
-        displayInfoMessage={displayInfoMessageWithDarkBackground} 
-      />
-
-      <OAuthButton 
-        platform={"facebook"} 
-        platformDisplay={"Facebook"} 
-        displayInfoMessage={displayInfoMessageWithDarkBackground} 
-      />
-
-      <OAuthButton 
-        platform={"twitter"}
-        platformDisplay={"Twitter"}
-        displayInfoMessage={displayInfoMessageWithDarkBackground} 
-      />
-
-      <OAuthButton
-        platform={"linkedin"}
-        platformDisplay={"LinkedIn"}
-        displayInfoMessage={displayInfoMessageWithDarkBackground} 
-      />
-
-      <OAuthButton 
-        platform={"github"} 
-        platformDisplay={"Github"} 
-        displayInfoMessage={displayInfoMessageWithDarkBackground} 
-      />
+      {oAuthButtonParams.map((params) => (
+        <OAuthButton
+          platform={params[0]}
+          platformDisplay={params[1]}
+          displayInfoMessage={displayInfoMessageWithDarkBackground}
+        />
+      ))}
     </div>
   );
 }
