@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ToastActionsContext } from "./ToastContexts";
+import { ToastActionsContext, ToastListContext } from "./ToastContexts";
 import { ToastType } from "./Toast";
 
 interface MessageActions {
@@ -38,5 +38,8 @@ const useMessageActions = (): MessageActions => {
   };
 }
 
+const useMessageList = () => {
+  return useContext(ToastListContext);
+}
 
-export { useMessageActions };
+export { useMessageActions, useMessageList };
