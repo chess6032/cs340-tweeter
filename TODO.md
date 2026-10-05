@@ -22,7 +22,7 @@
 
 ### Part 3
 
-1. [ ] replace all instances of `displayToast()` with a func from the `useMessageActions()` hook.
+1. [X] replace all instances of `displayToast()` with a func from the `useMessageActions()` hook.
     - `displayToast(ToastType.Info)`: replace with `displayInfoMessage()`.
     - `displayToast(ToastType.Error)`: replace with `displayErrorMessage()`.
     - NOTE: You won't be able to remove `displayToast()` instances in `MessageHooks.ts`, `ToastContext.ts`, nor `ToastInfoProvider.tsx`. Don't worry about these.
