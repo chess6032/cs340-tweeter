@@ -19,3 +19,10 @@
 - [X] Create `StatusItemScroller` component (to replace `FeedScroller` and `StoryScroller`).
 - [X] Refactor `App` to use `StatusItemScroller`.
 - [X] Delete `FeedScroller` and `StoryScroller`.
+
+### Part 3
+
+- [ ] replace all instances of `displayToast()` with a func from the `useMessageActions()` hook.
+    - `displayToast(ToastType.Info)`: replace with `displayInfoMessage()`.
+    - `displayToast(ToastType.Error)`: replace with `displayErrorMessage()`.
+    - NOTE: You won't be able to remove `displayToast()` instances in `MessageHooks.ts`, `ToastContext.ts`, nor `ToastInfoProvider.tsx`. Don't worry about these.
