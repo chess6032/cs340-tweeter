@@ -11,5 +11,5 @@
     - [X] Create `AuthenticationFields` component.
     - [X] Refactor `Login` and `Register`'s field factories to use `AuthenticationFields`.
 3. Refactor `AuthenticationFormLayout.tsx`: Move OAuth button logic into a separate component.
-    - [ ] Create `OAuth` component.
-    - [ ] Refactor `AuthenticationFormLayout` to use `OAuth`.
+    - [X] Create `OAuth` component.
+    - [X] Refactor `AuthenticationFormLayout` to use `OAuth`.
