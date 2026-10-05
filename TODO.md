@@ -17,5 +17,5 @@
 ### Part 2
 
 - [X] Create `StatusItemScroller` component (to replace `FeedScroller` and `StoryScroller`).
-- [ ] Refactor `App` to use `StatusItemScroller`.
+- [X] Refactor `App` to use `StatusItemScroller`.
 - [ ] Delete `FeedScroller` and `StoryScroller`.
