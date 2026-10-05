@@ -2,6 +2,7 @@ import { Context, createContext } from "react";
 import { User, AuthToken } from "tweeter-shared";
 import { UserInfo } from "./UserInfo";
 
+// FIXME: replace instances of this with userInfo() hook
 export const UserInfoContext = createContext<UserInfo>({} as UserInfo);
 
 interface UserInfoActions {
@@ -21,6 +22,6 @@ const defaultUserInfoActions: UserInfoActions = {
   setDisplayedUser: () => null,
 }
 
-
+// FIXME: replace instance of this with userInfoActions() hook
 export const UserInfoActionsContext: Context<UserInfoActions> =
   createContext<UserInfoActions>(defaultUserInfoActions);

@@ -22,7 +22,17 @@
 
 ### Part 3
 
-- [ ] replace all instances of `displayToast()` with a func from the `useMessageActions()` hook.
+1. [ ] replace all instances of `displayToast()` with a func from the `useMessageActions()` hook.
     - `displayToast(ToastType.Info)`: replace with `displayInfoMessage()`.
     - `displayToast(ToastType.Error)`: replace with `displayErrorMessage()`.
     - NOTE: You won't be able to remove `displayToast()` instances in `MessageHooks.ts`, `ToastContext.ts`, nor `ToastInfoProvider.tsx`. Don't worry about these.
+2. Hide `userInfoContext` and `userInfoActionContext` behind `userInfo()`/`userInfoAction()` hooks.
+    - [ ] create `userInfo()` and `userInfoAction()` hooks.
+    - [ ] replace all instances of `userInfoContext` and `userInfoActionContext` with `userInfo()` and `userInfoAction()` respectively.
+    - (You don't have to change the parameters used, so these hooks will be one-liners, like the `useMessageList()` hook showed in the video.)
+3. Remove duplicated `navigateToUser()` functions by replacing them with `useUserNavigation()` hook.
+    - [ ] Move the logic for `navigateToUser()` and the function it calls into a new `useUserNavigation()` hook. (The hook returns `navigateToUser()`.)
+        - You must find a way to let users of this hook modify the `featurePath` it uses. You can do this by either:
+            - (1) Adding another parameter to the hook, so that it takes in an event *and* a string (featurePath).
+            - (2) When the event is converted to a string (`event.target.toString()`), it *is* the URL. So you could use RegEx to extract the featurePath out of that.
+    - [ ] Replace instances of `navigateToUser()` with the hook.
