@@ -7,8 +7,6 @@ import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
 import { FolloweePresenter, FolloweeView } from "../../presenter/FolloweePresenter";
 
-export const PAGE_SIZE = 10;
-
 interface Props {
   itemDescription: string,
   featurePath: string,
@@ -23,8 +21,6 @@ interface Props {
 const UserItemScroller = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
   const [items, setItems] = useState<User[]>([]);
-  const [hasMoreItems, setHasMoreItems] = useState(true);
-  const [lastItem, setLastItem] = useState<User | null>(null);
 
   const addItems = (newItems: User[]) =>
     setItems((previousItems) => [...previousItems, ...newItems]);
@@ -68,25 +64,6 @@ const UserItemScroller = (props: Props) => {
     setItems(() => []); // NOTE: function is used here to avoid stale closure.
     setLastItem(() => null);
     setHasMoreItems(() => true);
-  };
-
-  const loadMoreItems = async (lastItem: User | null) => {
-    try {
-      const [newItems, hasMore] = await props.loadMore(
-        authToken!,
-        displayedUser!.alias,
-        PAGE_SIZE,
-        lastItem
-      );
-
-      setHasMoreItems(() => hasMore);
-      setLastItem(() => newItems[newItems.length - 1]);
-      addItems(newItems);
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to load ${props.itemDescription} because of exception: ${error}`,
-      );
-    }
   };
 
   return (
