@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { AuthToken, User } from "tweeter-shared";
 import { useParams } from "react-router-dom";
@@ -26,13 +26,20 @@ const UserItemScroller = (props: Props) => {
     displayErrorMessage
   }
 
-  const presenter = props.presenterFactory(listener);
+  const presenterRef = useRef<UserItemPresenter | null>(null);
+    // ^ we set `useRef()`'s to `null` because hooks are ran each time a component is re-rendered,
+    // so if we put `props.presenterFactory(listener)` in there, it would still make a new
+    // presenter each time the component is re-rendered, giving us the same bug where the first
+    // items are shown over and over again as the user scrolls the page.
+  if (!presenterRef.current) {
+    presenterRef.current = props.presenterFactory(listener);
+  }
 
   const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
-    presenter.getUser(authToken, alias);
+    presenterRef.current!.getUser(authToken, alias);
 
   const loadMoreItems = async () => {
-    presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
+    presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
@@ -59,7 +66,7 @@ const UserItemScroller = (props: Props) => {
 
   const reset = async () => {
     setItems(() => []);
-    presenter.reset();
+    presenterRef.current!.reset();
 
     // setLastItem(() => null);
     // setHasMoreItems(() => true);
@@ -71,7 +78,7 @@ const UserItemScroller = (props: Props) => {
         className="pr-0 mr-0"
         dataLength={items.length}
         next={loadMoreItems}
-        hasMore={presenter.hasMoreItems}
+        hasMore={presenterRef.current!.hasMoreItems}
         loader={<h4>Loading...</h4>}
       >
         {items.map((item, index) => (
