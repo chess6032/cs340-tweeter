@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { AuthToken, User } from "tweeter-shared";
+import { User } from "tweeter-shared";
 import { useParams } from "react-router-dom";
 import UserItem from "../userItem/UserItem";
 import { useMessageActions } from "../toaster/MessageHooks";
@@ -35,9 +35,6 @@ const UserItemScroller = (props: Props) => {
     presenterRef.current = props.presenterFactory(listener);
   }
 
-  const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
-    presenterRef.current!.getUser(authToken, alias);
-
   const loadMoreItems = async () => {
     presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
@@ -49,7 +46,7 @@ const UserItemScroller = (props: Props) => {
       displayedUserAliasParam &&
       displayedUserAliasParam != displayedUser!.alias
     ) {
-      getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
+      presenterRef.current!.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
         if (toUser) {
           setDisplayedUser(toUser);
         }
@@ -58,18 +55,15 @@ const UserItemScroller = (props: Props) => {
   }, [displayedUserAliasParam]);
 
   // Initialize the component whenever the displayed user changes
-  // NOTE: executed whenever user clicks on a different user.
+  // (i.e., whenever user clicks on a different user)
   useEffect(() => {
     reset();
-    loadMoreItems(); // NOTE: loads with null `lastItem`, so it renders the first page.
+    loadMoreItems();
   }, [displayedUser]);
 
   const reset = async () => {
     setItems(() => []);
     presenterRef.current!.reset();
-
-    // setLastItem(() => null);
-    // setHasMoreItems(() => true);
   };
 
   return (
