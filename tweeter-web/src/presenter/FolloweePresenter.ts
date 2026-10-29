@@ -8,14 +8,12 @@ export const PAGE_SIZE = 10;
 export class FolloweePresenter extends UserItemPresenter {
   private service: FollowService = new FollowService();
   private userService: UserService = new UserService();
-  private view: UserItemView;
-
   
   private hasMoreItems: boolean = true;
   private lastItem: User | null = null;
 
   public constructor(view: UserItemView) {
-    this.view = view;
+    super(view);
   }
 
   public async getUser(
