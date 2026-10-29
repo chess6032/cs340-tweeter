@@ -39,29 +39,30 @@ const App = () => {
 const AuthenticatedRoutes = () => {
   const { displayedUser } = useUserInfo();
 
-  // NOTE: some code duplication exists between loadMoreFollowees()
-  // and loadMoreFollowers(), but that's only temporary while we 
-  // use dummy data.
+  //////////////////////// MOVED ////////////////////////
+  // // NOTE: some code duplication exists between loadMoreFollowees()
+  // // and loadMoreFollowers(), but that's only temporary while we 
+  // // use dummy data.
 
-  const loadMoreFollowees = async (
-    authToken: AuthToken,
-    userAlias: string,
-    pageSize: number,
-    lastItem: User | null
-  ): Promise<[User[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
-  };
+  // const loadMoreFollowees = async (
+  //   authToken: AuthToken,
+  //   userAlias: string,
+  //   pageSize: number,
+  //   lastItem: User | null
+  // ): Promise<[User[], boolean]> => {
+  //   // TODO: Replace with the result of calling server
+  //   return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
+  // };
 
-  const loadMoreFollowers = async (
-    authToken: AuthToken,
-    userAlias: string,
-    pageSize: number,
-    lastItem: User | null
-  ): Promise<[User[], boolean]> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
-  };
+  // const loadMoreFollowers = async (
+  //   authToken: AuthToken,
+  //   userAlias: string,
+  //   pageSize: number,
+  //   lastItem: User | null
+  // ): Promise<[User[], boolean]> => {
+  //   // TODO: Replace with the result of calling server
+  //   return FakeData.instance.getPageOfUsers(lastItem, pageSize, userAlias);
+  // };
 
   const loadMoreFeedItems = async (
     authToken: AuthToken,

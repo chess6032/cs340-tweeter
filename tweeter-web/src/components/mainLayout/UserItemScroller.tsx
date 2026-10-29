@@ -38,14 +38,9 @@ const UserItemScroller = (props: Props) => {
   }
 
   const presenter = new FolloweePresenter(listener);
-  
-  const getUser = async (
-    authToken: AuthToken,
-    alias: string
-  ): Promise<User | null> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.findUserByAlias(alias);
-  };
+
+  const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
+    presenter.getUser(authToken, alias);
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {

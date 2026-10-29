@@ -11,3 +11,8 @@ TODO: add notes on *why* to move to a MVP model.
 - Many of the functionality you need to move uses fake data, so look our for references to the `FakeData` class.
   - Every reference to `FakeData` is something that needs to be refactored, but not everything that needs to be refactored references `FakeData`.
     - (e.g., `PostStatus`'s `postStatus()` function doesn't reference fake data, but it needs to be refactored.)
+
+### Notes
+
+- Each view only has *one* presenter. That one presenter may interact with *many* services.
+- Since it's hard to tell immediately where something should go, start by moving down layer by layer. That is, move it to the presenter, and then move it to the service.
