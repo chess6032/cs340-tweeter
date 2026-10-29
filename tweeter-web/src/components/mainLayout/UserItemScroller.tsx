@@ -22,15 +22,14 @@ const UserItemScroller = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
   const [items, setItems] = useState<User[]>([]);
 
-  const addItems = (newItems: User[]) =>
-    setItems((previousItems) => [...previousItems, ...newItems]);
-
   const { displayedUser, authToken } = useUserInfo();
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
 
   const listener: FolloweeView = { // observer: listens for changes in the presenter
-
+    addItems: (newItems: User[]) => 
+      setItems((previousItems) => [...previousItems, ...newItems]),
+    displayErrorMessage
   }
 
   const presenter = new FolloweePresenter(listener);
