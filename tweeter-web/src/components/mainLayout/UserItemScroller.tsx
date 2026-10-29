@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { AuthToken, FakeData, User } from "tweeter-shared";
+import { AuthToken, User } from "tweeter-shared";
 import { useParams } from "react-router-dom";
 import UserItem from "../userItem/UserItem";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
-import { FolloweePresenter } from "../../presenter/FolloweePresenter";
 import { UserItemPresenter, UserItemView } from "../../presenter/UserItemPresenter";
 
 interface Props {
@@ -27,12 +26,12 @@ const UserItemScroller = (props: Props) => {
     displayErrorMessage
   }
 
-  const presenter = new FolloweePresenter(listener);
+  const presenter = props.presenterFactory(listener);
 
   const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
     presenter.getUser(authToken, alias);
 
-  const loadMoreItems = async (lastItem: User | null) => {
+  const loadMoreItems = async () => {
     presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
 
@@ -55,13 +54,15 @@ const UserItemScroller = (props: Props) => {
   // NOTE: executed whenever user clicks on a different user.
   useEffect(() => {
     reset();
-    loadMoreItems(null); // NOTE: loads with null `lastItem`, so it renders the first page.
+    loadMoreItems(); // NOTE: loads with null `lastItem`, so it renders the first page.
   }, [displayedUser]);
 
   const reset = async () => {
-    setItems(() => []); // NOTE: function is used here to avoid stale closure.
-    setLastItem(() => null);
-    setHasMoreItems(() => true);
+    setItems(() => []);
+    presenter.reset();
+
+    // setLastItem(() => null);
+    // setHasMoreItems(() => true);
   };
 
   return (
@@ -69,8 +70,8 @@ const UserItemScroller = (props: Props) => {
       <InfiniteScroll
         className="pr-0 mr-0"
         dataLength={items.length}
-        next={() => loadMoreItems(lastItem)}
-        hasMore={hasMoreItems}
+        next={loadMoreItems}
+        hasMore={presenter.hasMoreItems}
         loader={<h4>Loading...</h4>}
       >
         {items.map((item, index) => (
