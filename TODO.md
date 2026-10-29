@@ -1,5 +1,13 @@
 # TODO
 
+## Milestone 2
+
+- BUG FIX: It appears I might have a bug where the followers/followees page scrolls forever.
+- Refactor to use MVP:
+  - Everything that uses `FakeData`.
+  - Every component for functionality that can be moved out into presenter/service classes.
+  - One hook: userNavigation hook, which can be moved into presenter.
+
 ## Milestone 1
 
 ### Part 1
