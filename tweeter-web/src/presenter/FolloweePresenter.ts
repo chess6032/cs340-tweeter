@@ -11,6 +11,8 @@ export class FolloweePresenter extends UserItemPresenter {
     super(view);
   }
 
+  // NOTE: the code duplication between this and FollowerPresenter will be 
+  // removed in M2B.
   public async loadMoreItems(authToken: AuthToken, userAlias: string) {
     try {
       const [newItems, hasMore] = await this.service.loadMoreFollowees(
