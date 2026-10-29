@@ -1,25 +1,20 @@
 import { AuthToken, User } from "tweeter-shared";
 import FollowService from "../model.service/FollowService";
 import UserService from "../model.service/UserService";
+import { UserItemPresenter, UserItemView } from "./UserItemPresenter";
 
 export const PAGE_SIZE = 10;
 
-// Presenter/Observer pattern
-export interface FolloweeView {
-  addItems: (items: User[]) => void;
-  displayErrorMessage: (message: string) => void;
-}
-
-export class FolloweePresenter {
+export class FolloweePresenter extends UserItemPresenter {
   private service: FollowService = new FollowService();
   private userService: UserService = new UserService();
-  private view: FolloweeView;
+  private view: UserItemView;
 
   
   private hasMoreItems: boolean = true;
   private lastItem: User | null = null;
 
-  public constructor(view: FolloweeView) {
+  public constructor(view: UserItemView) {
     this.view = view;
   }
 

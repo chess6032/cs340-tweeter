@@ -5,17 +5,12 @@ import { useParams } from "react-router-dom";
 import UserItem from "../userItem/UserItem";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
-import { FolloweePresenter, FolloweeView } from "../../presenter/FolloweePresenter";
+import { FolloweePresenter } from "../../presenter/FolloweePresenter";
+import { UserItemPresenter, UserItemView } from "../../presenter/UserItemPresenter";
 
 interface Props {
-  itemDescription: string,
-  featurePath: string,
-  loadMore: (
-    authToken: AuthToken, 
-    userAlias: string, 
-    pageSize: number, 
-    lastItem: User | null
-  ) => Promise<[User[], boolean]>
+  featurePath: string;
+  presenterFactory: (listener: UserItemView) => UserItemPresenter;
 }
 
 const UserItemScroller = (props: Props) => {
@@ -26,7 +21,7 @@ const UserItemScroller = (props: Props) => {
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
 
-  const listener: FolloweeView = { // observer: listens for changes in the presenter
+  const listener: UserItemView = { // observer: listens for changes in the presenter
     addItems: (newItems: User[]) => 
       setItems((previousItems) => [...previousItems, ...newItems]),
     displayErrorMessage
@@ -36,6 +31,10 @@ const UserItemScroller = (props: Props) => {
 
   const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
     presenter.getUser(authToken, alias);
+
+  const loadMoreItems = async (lastItem: User | null) => {
+    presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
+  }
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
