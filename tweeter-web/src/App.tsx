@@ -48,7 +48,7 @@ const AuthenticatedRoutes = () => {
     pageSize: number,
     lastItem: Status | null
   ): Promise<[Status[], boolean]> => {
-    // TODO: Replace with the result of calling server
+    // Future milestone: Replace with the result of calling server
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   };
 
@@ -58,7 +58,7 @@ const AuthenticatedRoutes = () => {
     pageSize: number,
     lastItem: Status | null
   ): Promise<[Status[], boolean]> => {
-    // TODO: Replace with the result of calling server
+    // Future milestone: Replace with the result of calling server
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   };  
 
@@ -66,7 +66,6 @@ const AuthenticatedRoutes = () => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route index element={<Navigate to={`/feed/${displayedUser!.alias}`} />} />
-        {/* FIXME: replace these two with StatusItemScroller */}
         <Route 
           key={`feed-${displayedUser!.alias}`}
           path="feed/:displayedUser" 
