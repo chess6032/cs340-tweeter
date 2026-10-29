@@ -56,13 +56,14 @@ const UserItemScroller = (props: Props) => {
   }, [displayedUserAliasParam]);
 
   // Initialize the component whenever the displayed user changes
+  // NOTE: executed whenever user clicks on a different user.
   useEffect(() => {
     reset();
-    loadMoreItems(null);
+    loadMoreItems(null); // NOTE: loads with null `lastItem`, so it renders the first page.
   }, [displayedUser]);
 
   const reset = async () => {
-    setItems(() => []);
+    setItems(() => []); // NOTE: function is used here to avoid stale closure.
     setLastItem(() => null);
     setHasMoreItems(() => true);
   };
