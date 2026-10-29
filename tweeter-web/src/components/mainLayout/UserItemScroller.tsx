@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import UserItem from "../userItem/UserItem";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
+import { FolloweePresenter, FolloweeView } from "../../presenter/FolloweePresenter";
 
 export const PAGE_SIZE = 10;
 
@@ -31,6 +32,12 @@ const UserItemScroller = (props: Props) => {
   const { displayedUser, authToken } = useUserInfo();
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
+
+  const listener: FolloweeView = { // observer: listens for changes in the presenter
+
+  }
+
+  const presenter = new FolloweePresenter(listener);
   
   const getUser = async (
     authToken: AuthToken,
