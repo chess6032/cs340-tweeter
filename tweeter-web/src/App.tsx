@@ -17,6 +17,7 @@ import { useUserInfo } from "./components/userInfo/UserInfoHooks";
 import { UserItemView } from "./presenter/UserItemPresenter";
 import { FolloweePresenter } from "./presenter/FolloweePresenter";
 import { FollowerPresenter } from "./presenter/FollowerPresenter";
+import StatusService from "./model.service/StatusService";
 
 const App = () => {
   const { currentUser, authToken } = useUserInfo();
@@ -52,7 +53,9 @@ const AuthenticatedRoutes = () => {
           element={<StatusItemScroller
             itemDescription="feed"
             featurePath="/feed"
-            loadMore={loadMoreFeedItems}
+            loadMore={new StatusService().loadMoreFeedItems}
+                      /* ^ this is some jank... I got ahead of myself...
+                           I added this just to make it compile... */
             />} 
             />
         <Route 
@@ -61,7 +64,8 @@ const AuthenticatedRoutes = () => {
           element={<StatusItemScroller 
             itemDescription="story"
             featurePath="/story"
-            loadMore={loadMoreStoryItems}
+            loadMore={new StatusService().loadMoreStoryItems}
+                    /* ^ same jank here */
           />} 
         />
         <Route 

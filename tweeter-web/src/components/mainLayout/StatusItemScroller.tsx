@@ -1,10 +1,11 @@
 import { AuthToken, FakeData, Status, User } from "tweeter-shared";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
 import StatusItem from "../statusItem/StatusItem";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
+import { StoryPresenter, StoryView } from "../../presenter/StoryPresenter";
 
 export const PAGE_SIZE = 10;
 
@@ -32,6 +33,10 @@ const StatusItemScroller = (props: Props) => {
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
 
+  const listener: StoryView = {}; // observer
+
+  const presenter = new StoryPresenter(listener);
+
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
     if (
@@ -39,7 +44,7 @@ const StatusItemScroller = (props: Props) => {
       displayedUserAliasParam &&
       displayedUserAliasParam != displayedUser!.alias
     ) {
-      getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
+      presenter.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
         if (toUser) {
           setDisplayedUser(toUser);
         }
@@ -78,13 +83,13 @@ const StatusItemScroller = (props: Props) => {
     }
   };
 
-  const getUser = async (
-    authToken: AuthToken,
-    alias: string
-  ): Promise<User | null> => {
-    // TODO: Replace with the result of calling server
-    return FakeData.instance.findUserByAlias(alias);
-  };
+  // const getUser = async (
+  //   authToken: AuthToken,
+  //   alias: string
+  // ): Promise<User | null> => {
+  //   // TODO: Replace with the result of calling server
+  //   return FakeData.instance.findUserByAlias(alias);
+  // };
 
   return (
     <div className="container px-0 overflow-visible vh-100">
