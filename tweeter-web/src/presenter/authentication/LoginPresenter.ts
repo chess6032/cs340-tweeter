@@ -8,7 +8,7 @@ export class LoginPresenter extends AuthenticationPresenter {
 
   public async login(alias: string, password: string) {
     try {
-      this.isLoading = true;
+      this.view.setIsLoading(true);
 
       const [user, authToken] = await this.service.login(alias, password);
 
@@ -24,7 +24,7 @@ export class LoginPresenter extends AuthenticationPresenter {
         `Failed to log user in because of exception: ${error}`,
       );
     } finally {
-      this.isLoading = false;
+      this.view.setIsLoading(false);
     }
   };
 }

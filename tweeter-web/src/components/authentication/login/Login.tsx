@@ -17,6 +17,8 @@ const Login = (props: Props) => {
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const { displayErrorMessage } = useMessageActions();
 
@@ -26,6 +28,7 @@ const Login = (props: Props) => {
 
   const listener: AuthenticationView = {
     originalUrl: props.originalUrl,
+    setIsLoading,
     navigate,
     displayErrorMessage
   }
@@ -73,7 +76,7 @@ const Login = (props: Props) => {
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
       setRememberMe={(value: boolean) => {presenter.rememberMe = value}}
       submitButtonDisabled={checkSubmitButtonStatus}
-      isLoading={presenter.isLoading}
+      isLoading={isLoading}
       submit={doLogin}
     />
   );

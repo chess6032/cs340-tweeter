@@ -14,11 +14,13 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const { displayErrorMessage } = useMessageActions();
 
   const listener: RegisterView = {
+    setIsLoading,
     navigate,
     displayErrorMessage,
     setImageUrl
@@ -130,7 +132,7 @@ const Register = () => {
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
       setRememberMe={(value: boolean) => { presenterRef.current!.rememberMe = value; }}
       submitButtonDisabled={checkSubmitButtonStatus}
-      isLoading={presenterRef.current!.isLoading}
+      isLoading={isLoading}
       submit={doRegister}
     />
   );
