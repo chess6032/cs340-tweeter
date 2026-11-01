@@ -1,4 +1,4 @@
-import { AuthToken, FakeData, Status, User } from "tweeter-shared";
+import { Status } from "tweeter-shared";
 import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useParams } from "react-router-dom";
@@ -48,45 +48,17 @@ const StatusItemScroller = (props: Props) => {
 
   // Initialize the component whenever the displayed user changes
   useEffect(() => {
-    reset();
+    // reset
+    setItems(() => []);
+    presenterRef.current!.reset();
+    // initialize
     loadMoreItems();
   }, [displayedUser]);
 
-  const reset = async () => {
-    setItems(() => []);
-    presenterRef.current!.reset();
-  };
 
   const loadMoreItems = async () => {
     presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
-
-  // const loadMoreItems = async (lastItem: Status | null) => {
-  //   try {
-  //     const [newItems, hasMore] = await props.loadMore(
-  //       authToken!,
-  //       displayedUser!.alias,
-  //       PAGE_SIZE,
-  //       lastItem
-  //     );
-
-  //     setHasMoreItems(() => hasMore);
-  //     setLastItem(() => newItems[newItems.length - 1]);
-  //     addItems(newItems);
-  //   } catch (error) {
-  //     displayErrorMessage(
-  //       `Failed to load ${props.itemDescription} items because of exception: ${error}`,
-  //     );
-  //   }
-  // };
-
-  // const getUser = async (
-  //   authToken: AuthToken,
-  //   alias: string
-  // ): Promise<User | null> => {
-  //   // TODO: Replace with the result of calling server
-  //   return FakeData.instance.findUserByAlias(alias);
-  // };
 
   return (
     <div className="container px-0 overflow-visible vh-100">
