@@ -2,16 +2,18 @@ import { ChangeEvent } from "react";
 import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
 import { Buffer } from "buffer";
 
+export interface RegisterView extends AuthenticationView {
+  setImageUrl: (newUrl: string) => void;
+}
+
 export class RegisterPresenter extends AuthenticationPresenter {
   private imageBytes: Uint8Array = new Uint8Array();
-  private _imageUrl: string = "";
   private _imageFileExtension: string = "";
 
-  public constructor(view: AuthenticationView) {
+  public constructor(view: RegisterView) {
     super(view);
   }
 
-  public get imageUrl()           { return this._imageUrl; }
   public get imageFileExtension() { return this._imageFileExtension; }
 
   public async register(
@@ -53,8 +55,9 @@ export class RegisterPresenter extends AuthenticationPresenter {
     };
   
   public handleImageFile (file: File | undefined) {
+    const view = this.view as RegisterView;
     if (file) {
-      this._imageUrl = URL.createObjectURL(file);
+      view.setImageUrl(URL.createObjectURL(file));
 
       const reader = new FileReader();
       reader.onload = (event: ProgressEvent<FileReader>) => {
@@ -79,7 +82,7 @@ export class RegisterPresenter extends AuthenticationPresenter {
         this._imageFileExtension = fileExtension;
       }
     } else {
-      this._imageUrl = "";
+      view.setImageUrl("");
       this.imageBytes = new Uint8Array();
     }
   };

@@ -7,7 +7,7 @@ import { Buffer } from "buffer";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { AuthenticationView } from "../../../presenter/authentication/AuthenticationPresenter";
-import { RegisterPresenter } from "../../../presenter/authentication/RegisterPresenter";
+import { RegisterPresenter, RegisterView } from "../../../presenter/authentication/RegisterPresenter";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -15,7 +15,7 @@ const Register = () => {
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
   // const [imageBytes, setImageBytes] = useState<Uint8Array>(new Uint8Array());
-  // const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
   // const [imageFileExtension, setImageFileExtension] = useState<string>("");
   // const [rememberMe, setRememberMe] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
@@ -24,12 +24,12 @@ const Register = () => {
   const { displayErrorMessage } = useMessageActions();
   // const { updateUserInfo } = useUserInfoActions();
 
-  const listener: AuthenticationView = {
+  const listener: RegisterView = {
     navigate,
-    displayErrorMessage
+    displayErrorMessage,
+    setImageUrl
   }
 
-  // FIXME: does presenter need to be a ref?
   const presenterRef = useRef<RegisterPresenter | null>(null);
   if (!presenterRef.current) {
     presenterRef.current = new RegisterPresenter(listener);
@@ -41,7 +41,7 @@ const Register = () => {
       !lastName ||
       !alias ||
       !password ||
-      !presenterRef.current!.imageUrl ||
+      !imageUrl ||
       !presenterRef.current!.imageFileExtension
     );
   };
@@ -142,12 +142,12 @@ const Register = () => {
             className="d-inline-block py-5 px-4 form-control bottom"
             id="imageFileInput"
             onKeyDown={registerOnEnter}
-            onChange={presenterRef.current!.handleFileChange}
+            onChange={(event) => presenterRef.current!.handleFileChange(event)}
           />
-          {presenterRef.current!.imageUrl.length > 0 && (
+          {imageUrl.length > 0 && (
             <>
               <label htmlFor="imageFileInput">User Image</label>
-              <img src={presenterRef.current!.imageUrl} className="img-thumbnail" alt=""></img>
+              <img src={imageUrl} className="img-thumbnail" alt=""></img>
             </>
           )}
         </div>
