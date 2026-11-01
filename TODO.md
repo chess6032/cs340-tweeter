@@ -32,8 +32,8 @@ Functionalities to refactor:
     - [ ] `postStatus()` (maybe???)
   - [ ] `Logout`
     - This one was explicitly mentioned in the spec but I don't appear to have a Logout component/class...????
-  - [ ] `Register`
-    - [ ] Image manipulation shih
+  - [X] `Register`
+    - [X] Image manipulation shih
 
 Crossing my fingers I'll end up with 12 presenter classes... otherwise I'll have to ignore Douglas Adams advice and start panicking.
 
