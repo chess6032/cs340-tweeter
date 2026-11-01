@@ -1,6 +1,6 @@
 import "./Register.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import { Buffer } from "buffer";
@@ -30,7 +30,10 @@ const Register = () => {
   }
 
   // FIXME: does presenter need to be a ref?
-  const presenter: RegisterPresenter = new RegisterPresenter(listener);
+  const presenterRef = useRef<RegisterPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = new RegisterPresenter(listener);
+  }
 
   const checkSubmitButtonStatus = (): boolean => {
     return (
@@ -38,13 +41,13 @@ const Register = () => {
       !lastName ||
       !alias ||
       !password ||
-      !presenter.imageUrl ||
-      !presenter.imageFileExtension
+      !presenterRef.current!.imageUrl ||
+      !presenterRef.current!.imageFileExtension
     );
   };
 
   const doRegister = () => {
-    presenter.register(
+    presenterRef.current!.register(
       firstName,
       lastName,
       alias,
@@ -139,12 +142,12 @@ const Register = () => {
             className="d-inline-block py-5 px-4 form-control bottom"
             id="imageFileInput"
             onKeyDown={registerOnEnter}
-            onChange={presenter.handleFileChange}
+            onChange={presenterRef.current!.handleFileChange}
           />
-          {presenter.imageUrl.length > 0 && (
+          {presenterRef.current!.imageUrl.length > 0 && (
             <>
               <label htmlFor="imageFileInput">User Image</label>
-              <img src={presenter.imageUrl} className="img-thumbnail" alt=""></img>
+              <img src={presenterRef.current!.imageUrl} className="img-thumbnail" alt=""></img>
             </>
           )}
         </div>
@@ -167,9 +170,9 @@ const Register = () => {
       oAuthHeading="Register with:"
       inputFieldFactory={inputFieldFactory}
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
-      setRememberMe={(value: boolean) => { presenter.rememberMe = value; }}
+      setRememberMe={(value: boolean) => { presenterRef.current!.rememberMe = value; }}
       submitButtonDisabled={checkSubmitButtonStatus}
-      isLoading={presenter.isLoading}
+      isLoading={presenterRef.current!.isLoading}
       submit={doRegister}
     />
   );
