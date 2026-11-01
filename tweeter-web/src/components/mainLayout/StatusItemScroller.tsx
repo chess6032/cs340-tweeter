@@ -26,7 +26,10 @@ const StatusItemScroller = (props: Props) => {
     displayErrorMessage
   }; 
 
-  const presenter = props.presenterFactory(listener);
+  const presenterRef = useRef<StatusItemPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = props.presenterFactory(listener);
+  }
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
@@ -35,7 +38,7 @@ const StatusItemScroller = (props: Props) => {
       displayedUserAliasParam &&
       displayedUserAliasParam != displayedUser!.alias
     ) {
-      presenter.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
+      presenterRef.current!.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
         if (toUser) {
           setDisplayedUser(toUser);
         }
@@ -51,11 +54,11 @@ const StatusItemScroller = (props: Props) => {
 
   const reset = async () => {
     setItems(() => []);
-    presenter.reset();
+    presenterRef.current!.reset();
   };
 
   const loadMoreItems = async () => {
-    presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
+    presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
 
   // const loadMoreItems = async (lastItem: Status | null) => {
@@ -91,7 +94,7 @@ const StatusItemScroller = (props: Props) => {
         className="pr-0 mr-0"
         dataLength={items.length}
         next={loadMoreItems}
-        hasMore={presenter.hasMoreItems}
+        hasMore={presenterRef.current!.hasMoreItems}
         loader={<h4>Loading...</h4>}
       >
         {items.map((item, index) => (
