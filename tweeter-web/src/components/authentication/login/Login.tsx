@@ -32,42 +32,42 @@ const Login = (props: Props) => {
     }
   }
 
-  // FIXME: code dupe with Register::doRegister() ?
-  const doLogin = async () => {
-    try {
-      setIsLoading(true);
+  // // FIXME: code dupe with Register::doRegister() ?
+  // const doLogin = async () => {
+  //   try {
+  //     setIsLoading(true);
 
-      const [user, authToken] = await login(alias, password);
+  //     const [user, authToken] = await login(alias, password);
 
-      updateUserInfo(user, user, authToken, rememberMe);
+  //     updateUserInfo(user, user, authToken, rememberMe);
 
-      if (!!props.originalUrl) {
-        navigate(props.originalUrl);
-      } else {
-        navigate(`/feed/${user.alias}`);
-      }
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to log user in because of exception: ${error}`,
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     if (!!props.originalUrl) {
+  //       navigate(props.originalUrl);
+  //     } else {
+  //       navigate(`/feed/${user.alias}`);
+  //     }
+  //   } catch (error) {
+  //     displayErrorMessage(
+  //       `Failed to log user in because of exception: ${error}`,
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const login = async (
-    alias: string,
-    password: string
-  ): Promise<[User, AuthToken]> => {
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
+  // const login = async (
+  //   alias: string,
+  //   password: string
+  // ): Promise<[User, AuthToken]> => {
+  //   // TODO: Replace with the result of calling the server
+  //   const user = FakeData.instance.firstUser;
 
-    if (user === null) {
-      throw new Error("Invalid alias or password");
-    }
+  //   if (user === null) {
+  //     throw new Error("Invalid alias or password");
+  //   }
 
-    return [user, FakeData.instance.authToken];
-  };
+  //   return [user, FakeData.instance.authToken];
+  // };
 
   const inputFieldFactory = () => {
 
