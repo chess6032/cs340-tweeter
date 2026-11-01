@@ -6,7 +6,6 @@ export const PAGE_SIZE = 10;
 
 export class FolloweePresenter extends UserItemPresenter {
   private service: FollowService = new FollowService();
-  private pagesLoaded: number = 0;
 
   public constructor(view: UserItemView) {
     super(view);
@@ -16,10 +15,6 @@ export class FolloweePresenter extends UserItemPresenter {
   // removed in M2B.
   public async loadMoreItems(authToken: AuthToken, userAlias: string) {
     try {
-      this.pagesLoaded += 1;
-
-      console.log(`lastItem: ${this.lastItem}`);
-
       const [newItems, hasMore] = await this.service.loadMoreFollowees(
         authToken,
         userAlias,
@@ -27,13 +22,10 @@ export class FolloweePresenter extends UserItemPresenter {
         this.lastItem
       );
 
-      console.log(`page ${this.pagesLoaded}: ${newItems.map((user) => user.firstName)}`);
-
       this.hasMoreItems = hasMore;
       this.lastItem = newItems.length > 0
         ? newItems[newItems.length - 1]
         : null;
-      
       this.view.addItems(newItems);
     } catch (error) {
       this.view.displayErrorMessage(
