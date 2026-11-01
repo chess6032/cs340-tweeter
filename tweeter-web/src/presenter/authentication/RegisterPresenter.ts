@@ -44,11 +44,6 @@ export class RegisterPresenter extends AuthenticationPresenter {
   };
 
   ////////////////// IMAGE LOGIC //////////////////
-
-  public handleFileChange (event: ChangeEvent<HTMLInputElement>) {
-      const file = event.target.files?.[0];
-      this.handleImageFile(file);
-    };
   
   public handleImageFile (file: File | undefined) {
     const view = this.view as RegisterView;

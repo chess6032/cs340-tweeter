@@ -1,6 +1,6 @@
 import "./Register.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import AuthenticationFields from "../AuthenticationFields";
@@ -50,6 +50,11 @@ const Register = () => {
       password
     );
   }
+  
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      presenterRef.current!.handleImageFile(file);
+  };
 
   const registerOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key == "Enter" && !checkSubmitButtonStatus()) {
@@ -95,7 +100,7 @@ const Register = () => {
             className="d-inline-block py-5 px-4 form-control bottom"
             id="imageFileInput"
             onKeyDown={registerOnEnter}
-            onChange={(event) => presenterRef.current!.handleFileChange(event)}
+            onChange={(event) => handleFileChange(event)}
           />
           {imageUrl.length > 0 && (
             <>
