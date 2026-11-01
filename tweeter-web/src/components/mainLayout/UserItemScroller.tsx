@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { AuthToken, User } from "tweeter-shared";
 import { useParams } from "react-router-dom";
@@ -26,7 +26,16 @@ const UserItemScroller = (props: Props) => {
     displayErrorMessage
   }
 
-  const presenter = props.presenterFactory(listener);
+  const presenterRef = useRef<UserItemPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = props.presenterFactory(listener);
+  }
+  // Whatever's inside the parameters for useRef() is evaluated each time the hook 
+  // is invoked---that is, whenever the component re-renders. Hence, if we were to pass in
+  // a call to `props.presenterFactory()` into useRef(), that factory would be invoked each 
+  // re-render---even though its return would be thrown out.
+  // TL;DR: Passing in `null` is an optimization. We'd get the same result if we passed
+  // `props.presenterFactory()` into useRef(), but that wouldn't be as efficient.
 
   const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
     presenter.getUser(authToken, alias);
