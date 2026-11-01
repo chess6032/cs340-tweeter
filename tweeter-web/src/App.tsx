@@ -51,22 +51,15 @@ const AuthenticatedRoutes = () => {
           key={`feed-${displayedUser!.alias}`}
           path="feed/:displayedUser" 
           element={<StatusItemScroller
-            itemDescription="feed"
             featurePath="/feed"
-            loadMore={new StatusService().loadMoreFeedItems}
-                      /* ^ this is some jank... I got ahead of myself...
-                           I added this just to make it compile... */
-            />} 
-            />
+          />} 
+        />
         <Route 
           key={`story-${displayedUser!.alias}`}
           path="story/:displayedUser" 
           element={<StatusItemScroller 
-            itemDescription="story"
             featurePath="/story"
-            loadMore={new StatusService().loadMoreStoryItems}
-                    /* ^ same jank here */
-          />} 
+          />}
         />
         <Route 
           path="followees/:displayedUser" 

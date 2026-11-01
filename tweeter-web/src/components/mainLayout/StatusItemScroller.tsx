@@ -7,33 +7,23 @@ import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
 import { StoryPresenter, StoryView } from "../../presenter/StoryPresenter";
 
-export const PAGE_SIZE = 10;
-
 interface Props {
-  itemDescription: string,
-  featurePath: string,
-  loadMore: (
-    authToken: AuthToken, 
-    userAlias: string, 
-    pageSize: number, 
-    lastItem: Status | null
-  ) => Promise<[Status[], boolean]>
+  featurePath: string
 }
 
 const StatusItemScroller = (props: Props) => {
   const { displayErrorMessage } = useMessageActions();
   const [items, setItems] = useState<Status[]>([]);
-  const [hasMoreItems, setHasMoreItems] = useState(true);
-  const [lastItem, setLastItem] = useState<Status | null>(null);
-
-  const addItems = (newItems: Status[]) =>
-    setItems((previousItems) => [...previousItems, ...newItems]);
 
   const { displayedUser, authToken } = useUserInfo();
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
 
-  const listener: StoryView = {}; // observer
+  const listener: StoryView = { // observer for updating this view
+    addItems: (newItems: Status[]) =>
+      setItems((previousItems) => [...previousItems, ...newItems]),
+    displayErrorMessage
+  }; 
 
   const presenter = new StoryPresenter(listener);
 
@@ -55,33 +45,36 @@ const StatusItemScroller = (props: Props) => {
   // Initialize the component whenever the displayed user changes
   useEffect(() => {
     reset();
-    loadMoreItems(null);
+    loadMoreItems();
   }, [displayedUser]);
 
   const reset = async () => {
     setItems(() => []);
-    setLastItem(() => null);
-    setHasMoreItems(() => true);
+    presenter.reset();
   };
 
-  const loadMoreItems = async (lastItem: Status | null) => {
-    try {
-      const [newItems, hasMore] = await props.loadMore(
-        authToken!,
-        displayedUser!.alias,
-        PAGE_SIZE,
-        lastItem
-      );
+  const loadMoreItems = async () => {
+    presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
+  }
 
-      setHasMoreItems(() => hasMore);
-      setLastItem(() => newItems[newItems.length - 1]);
-      addItems(newItems);
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to load ${props.itemDescription} items because of exception: ${error}`,
-      );
-    }
-  };
+  // const loadMoreItems = async (lastItem: Status | null) => {
+  //   try {
+  //     const [newItems, hasMore] = await props.loadMore(
+  //       authToken!,
+  //       displayedUser!.alias,
+  //       PAGE_SIZE,
+  //       lastItem
+  //     );
+
+  //     setHasMoreItems(() => hasMore);
+  //     setLastItem(() => newItems[newItems.length - 1]);
+  //     addItems(newItems);
+  //   } catch (error) {
+  //     displayErrorMessage(
+  //       `Failed to load ${props.itemDescription} items because of exception: ${error}`,
+  //     );
+  //   }
+  // };
 
   // const getUser = async (
   //   authToken: AuthToken,
@@ -96,8 +89,8 @@ const StatusItemScroller = (props: Props) => {
       <InfiniteScroll
         className="pr-0 mr-0"
         dataLength={items.length}
-        next={() => loadMoreItems(lastItem)}
-        hasMore={hasMoreItems}
+        next={loadMoreItems}
+        hasMore={presenter.hasMoreItems}
         loader={<h4>Loading...</h4>}
       >
         {items.map((item, index) => (

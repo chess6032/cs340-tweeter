@@ -1,7 +1,7 @@
 import { AuthToken, Status, FakeData } from "tweeter-shared";
 
 export default class StatusService {
-  public async loadMoreFeedItems (
+  public async loadMoreFeeds (
     authToken: AuthToken,
     userAlias: string,
     pageSize: number,
@@ -11,7 +11,7 @@ export default class StatusService {
     return FakeData.instance.getPageOfStatuses(lastItem, pageSize);
   };
 
-  public async loadMoreStoryItems (
+  public async loadMoreStories (
     authToken: AuthToken,
     userAlias: string,
     pageSize: number,
