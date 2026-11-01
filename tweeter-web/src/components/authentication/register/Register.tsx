@@ -14,26 +14,15 @@ const Register = () => {
   const [lastName, setLastName] = useState("");
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
-  const [imageBytes, setImageBytes] = useState<Uint8Array>(new Uint8Array());
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [imageFileExtension, setImageFileExtension] = useState<string>("");
+  // const [imageBytes, setImageBytes] = useState<Uint8Array>(new Uint8Array());
+  // const [imageUrl, setImageUrl] = useState<string>("");
+  // const [imageFileExtension, setImageFileExtension] = useState<string>("");
   // const [rememberMe, setRememberMe] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const { displayErrorMessage } = useMessageActions();
   // const { updateUserInfo } = useUserInfoActions();
-
-  const checkSubmitButtonStatus = (): boolean => {
-    return (
-      !firstName ||
-      !lastName ||
-      !alias ||
-      !password ||
-      !imageUrl ||
-      !imageFileExtension
-    );
-  };
 
   const listener: AuthenticationView = {
     navigate,
@@ -43,14 +32,25 @@ const Register = () => {
   // FIXME: does presenter need to be a ref?
   const presenter: RegisterPresenter = new RegisterPresenter(listener);
 
+  const checkSubmitButtonStatus = (): boolean => {
+    return (
+      !firstName ||
+      !lastName ||
+      !alias ||
+      !password ||
+      !presenter.imageUrl ||
+      !presenter.imageFileExtension
+    );
+  };
+
   const doRegister = () => {
     presenter.register(
       firstName,
       lastName,
       alias,
       password,
-      imageBytes,
-      imageFileExtension
+      // imageBytes,
+      // imageFileExtension
     );
   }
 
@@ -60,46 +60,46 @@ const Register = () => {
     }
   };
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    handleImageFile(file);
-  };
+  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   handleImageFile(file);
+  // };
 
-  const handleImageFile = (file: File | undefined) => {
-    if (file) {
-      setImageUrl(URL.createObjectURL(file));
+  // const handleImageFile = (file: File | undefined) => {
+  //   if (file) {
+  //     setImageUrl(URL.createObjectURL(file));
 
-      const reader = new FileReader();
-      reader.onload = (event: ProgressEvent<FileReader>) => {
-        const imageStringBase64 = event.target?.result as string;
+  //     const reader = new FileReader();
+  //     reader.onload = (event: ProgressEvent<FileReader>) => {
+  //       const imageStringBase64 = event.target?.result as string;
 
-        // Remove unnecessary file metadata from the start of the string.
-        const imageStringBase64BufferContents =
-          imageStringBase64.split("base64,")[1];
+  //       // Remove unnecessary file metadata from the start of the string.
+  //       const imageStringBase64BufferContents =
+  //         imageStringBase64.split("base64,")[1];
 
-        const bytes: Uint8Array = Buffer.from(
-          imageStringBase64BufferContents,
-          "base64"
-        );
+  //       const bytes: Uint8Array = Buffer.from(
+  //         imageStringBase64BufferContents,
+  //         "base64"
+  //       );
 
-        setImageBytes(bytes);
-      };
-      reader.readAsDataURL(file);
+  //       setImageBytes(bytes);
+  //     };
+  //     reader.readAsDataURL(file);
 
-      // Set image file extension (and move to a separate method)
-      const fileExtension = getFileExtension(file);
-      if (fileExtension) {
-        setImageFileExtension(fileExtension);
-      }
-    } else {
-      setImageUrl("");
-      setImageBytes(new Uint8Array());
-    }
-  };
+  //     // Set image file extension (and move to a separate method)
+  //     const fileExtension = getFileExtension(file);
+  //     if (fileExtension) {
+  //       setImageFileExtension(fileExtension);
+  //     }
+  //   } else {
+  //     setImageUrl("");
+  //     setImageBytes(new Uint8Array());
+  //   }
+  // };
 
-  const getFileExtension = (file: File): string | undefined => {
-    return file.name.split(".").pop();
-  };
+  // const getFileExtension = (file: File): string | undefined => {
+  //   return file.name.split(".").pop();
+  // };
 
   const inputFieldFactory = () => {
     return (
@@ -139,12 +139,12 @@ const Register = () => {
             className="d-inline-block py-5 px-4 form-control bottom"
             id="imageFileInput"
             onKeyDown={registerOnEnter}
-            onChange={handleFileChange}
+            onChange={presenter.handleFileChange}
           />
-          {imageUrl.length > 0 && (
+          {presenter.imageUrl.length > 0 && (
             <>
               <label htmlFor="imageFileInput">User Image</label>
-              <img src={imageUrl} className="img-thumbnail" alt=""></img>
+              <img src={presenter.imageUrl} className="img-thumbnail" alt=""></img>
             </>
           )}
         </div>
