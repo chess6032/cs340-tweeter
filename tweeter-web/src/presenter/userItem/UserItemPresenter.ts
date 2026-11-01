@@ -1,7 +1,7 @@
 // parent class for FolloweePresenter and FollowerPresenter
 
 import { AuthToken, User } from "tweeter-shared";
-import UserService from "../model.service/UserService";
+import UserService from "../../model.service/UserService";
 
 export interface UserItemView {
   addItems: (items: User[]) => void;
