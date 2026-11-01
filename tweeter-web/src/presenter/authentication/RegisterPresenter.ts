@@ -8,21 +8,17 @@ export interface RegisterView extends AuthenticationView {
 
 export class RegisterPresenter extends AuthenticationPresenter {
   private imageBytes: Uint8Array = new Uint8Array();
-  private _imageFileExtension: string = "";
+  private imageFileExtension: string = "";
 
   public constructor(view: RegisterView) {
     super(view);
   }
 
-  public get imageFileExtension() { return this._imageFileExtension; }
-
   public async register(
     firstName: string,
     lastName: string,
     alias: string,
-    password: string,
-    // userImageBytes: Uint8Array,
-    // imageFileExtension: string
+    password: string
   ) {
     try {
       this.isLoading = true;
@@ -33,7 +29,7 @@ export class RegisterPresenter extends AuthenticationPresenter {
         alias,
         password,
         this.imageBytes,
-        this._imageFileExtension
+        this.imageFileExtension
       );
 
       this.service.updateUserInfo(user, user, authToken, this.rememberMe);
@@ -79,7 +75,7 @@ export class RegisterPresenter extends AuthenticationPresenter {
       // Set image file extension (and move to a separate method)
       const fileExtension = this.getFileExtension(file);
       if (fileExtension) {
-        this._imageFileExtension = fileExtension;
+        this.imageFileExtension = fileExtension;
       }
     } else {
       view.setImageUrl("");

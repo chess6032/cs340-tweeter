@@ -35,8 +35,10 @@ const Register = () => {
       !lastName ||
       !alias ||
       !password ||
-      !imageUrl ||
+      !imageUrl /*||
       !presenterRef.current!.imageFileExtension
+      // ^ I don't believe I need this bc I don't believe it has any information imageUrl doesn't...
+      */
     );
   };
 
