@@ -30,6 +30,10 @@ export abstract class UserItemPresenter {
     this._hasMoreItems = value;
   }
 
+  protected get lastItem() {
+    return this._lastItem;
+  }
+
   protected set lastItem(value: User | null) {
     this._lastItem = value;
   }

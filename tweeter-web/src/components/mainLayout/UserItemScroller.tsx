@@ -27,17 +27,15 @@ const UserItemScroller = (props: Props) => {
   }
 
   const presenterRef = useRef<UserItemPresenter | null>(null);
-    // ^ we set `useRef()`'s to `null` because hooks are ran each time a component is re-rendered,
-    // so if we put `props.presenterFactory(listener)` in there, it would still make a new
-    // presenter each time the component is re-rendered, giving us the same bug where the first
-    // items are shown over and over again as the user scrolls the page.
   if (!presenterRef.current) {
     presenterRef.current = props.presenterFactory(listener);
   }
-
-  const loadMoreItems = async () => {
-    presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
-  }
+  // ^ Whatever's inside the parameters for useRef() is evaluated each time the hook 
+  //   is invoked---that is, whenever the component re-renders. Hence, if we were to pass in
+  //   a call to `props.presenterFactory()` into useRef(), that factory would be invoked each 
+  //   re-render---even though its return would be thrown out.
+  //   TL;DR: Passing in `null` is an optimization. We'd get the same result if we passed
+  //   `props.presenterFactory()` into useRef(), but that wouldn't be as efficient.
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
@@ -55,16 +53,18 @@ const UserItemScroller = (props: Props) => {
   }, [displayedUserAliasParam]);
 
   // Initialize the component whenever the displayed user changes
-  // (i.e., whenever user clicks on a different user)
+  // (That is, whenever a different user is clicked.)
   useEffect(() => {
-    reset();
+    // reset
+    setItems(() => []);
+    presenterRef.current!.reset();
+    // initialize
     loadMoreItems();
   }, [displayedUser]);
 
-  const reset = async () => {
-    setItems(() => []);
-    presenterRef.current!.reset();
-  };
+  const loadMoreItems = async () => {
+    presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
+  }
 
   return (
     <div className="container px-0 overflow-visible vh-100">
