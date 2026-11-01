@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { User } from "tweeter-shared";
+import { AuthToken, User } from "tweeter-shared";
 import { useParams } from "react-router-dom";
 import UserItem from "../userItem/UserItem";
 import { useMessageActions } from "../toaster/MessageHooks";
@@ -26,17 +26,13 @@ const UserItemScroller = (props: Props) => {
     displayErrorMessage
   }
 
-  const presenterRef = useRef<UserItemPresenter | null>(null);
-    // ^ we set `useRef()`'s to `null` because hooks are ran each time a component is re-rendered,
-    // so if we put `props.presenterFactory(listener)` in there, it would still make a new
-    // presenter each time the component is re-rendered, giving us the same bug where the first
-    // items are shown over and over again as the user scrolls the page.
-  if (!presenterRef.current) {
-    presenterRef.current = props.presenterFactory(listener);
-  }
+  const presenter = props.presenterFactory(listener);
+
+  const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
+    presenter.getUser(authToken, alias);
 
   const loadMoreItems = async () => {
-    presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
+    presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
@@ -46,7 +42,7 @@ const UserItemScroller = (props: Props) => {
       displayedUserAliasParam &&
       displayedUserAliasParam != displayedUser!.alias
     ) {
-      presenterRef.current!.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
+      getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
         if (toUser) {
           setDisplayedUser(toUser);
         }
@@ -55,15 +51,18 @@ const UserItemScroller = (props: Props) => {
   }, [displayedUserAliasParam]);
 
   // Initialize the component whenever the displayed user changes
-  // (i.e., whenever user clicks on a different user)
+  // NOTE: executed whenever user clicks on a different user.
   useEffect(() => {
     reset();
-    loadMoreItems();
+    loadMoreItems(); // NOTE: loads with null `lastItem`, so it renders the first page.
   }, [displayedUser]);
 
   const reset = async () => {
     setItems(() => []);
-    presenterRef.current!.reset();
+    presenter.reset();
+
+    // setLastItem(() => null);
+    // setHasMoreItems(() => true);
   };
 
   return (
@@ -72,7 +71,7 @@ const UserItemScroller = (props: Props) => {
         className="pr-0 mr-0"
         dataLength={items.length}
         next={loadMoreItems}
-        hasMore={presenterRef.current!.hasMoreItems}
+        hasMore={presenter.hasMoreItems}
         loader={<h4>Loading...</h4>}
       >
         {items.map((item, index) => (
