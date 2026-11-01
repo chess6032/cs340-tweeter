@@ -9,11 +9,11 @@ Refactor **every functionality that contacts the server** to use MVP. In total, 
 Functionalities to refactor:
 
 - Uses `FakeData`:
-  - [ ] `App`
+  - [X] `App`
     - [X] `loadMoreFollowers()` (done in demo video)
     - [X] `loadMoreFollowees()` (done in demo video)
-    - [ ] `loadMoreFeedItems()`
-    - [ ] `loadMoreStoryItems()`
+    - [X] `loadMoreFeedItems()`
+    - [X] `loadMoreStoryItems()`
   - [ ] `Login`
     - [ ] `login()`
   - [ ] `Register`
