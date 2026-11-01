@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { AuthToken, User } from "tweeter-shared";
+import { User } from "tweeter-shared";
 import { useParams } from "react-router-dom";
 import UserItem from "../userItem/UserItem";
 import { useMessageActions } from "../toaster/MessageHooks";
@@ -30,12 +30,12 @@ const UserItemScroller = (props: Props) => {
   if (!presenterRef.current) {
     presenterRef.current = props.presenterFactory(listener);
   }
-  // Whatever's inside the parameters for useRef() is evaluated each time the hook 
-  // is invoked---that is, whenever the component re-renders. Hence, if we were to pass in
-  // a call to `props.presenterFactory()` into useRef(), that factory would be invoked each 
-  // re-render---even though its return would be thrown out.
-  // TL;DR: Passing in `null` is an optimization. We'd get the same result if we passed
-  // `props.presenterFactory()` into useRef(), but that wouldn't be as efficient.
+  // ^ Whatever's inside the parameters for useRef() is evaluated each time the hook 
+  //   is invoked---that is, whenever the component re-renders. Hence, if we were to pass in
+  //   a call to `props.presenterFactory()` into useRef(), that factory would be invoked each 
+  //   re-render---even though its return would be thrown out.
+  //   TL;DR: Passing in `null` is an optimization. We'd get the same result if we passed
+  //   `props.presenterFactory()` into useRef(), but that wouldn't be as efficient.
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
@@ -44,7 +44,7 @@ const UserItemScroller = (props: Props) => {
       displayedUserAliasParam &&
       displayedUserAliasParam != displayedUser!.alias
     ) {
-      getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
+      presenterRef.current!.getUser(authToken!, displayedUserAliasParam!).then((toUser) => {
         if (toUser) {
           setDisplayedUser(toUser);
         }
@@ -53,23 +53,18 @@ const UserItemScroller = (props: Props) => {
   }, [displayedUserAliasParam]);
 
   // Initialize the component whenever the displayed user changes
-  // NOTE: executed whenever user clicks on a different user.
+  // (That is, whenever a different user is clicked.)
   useEffect(() => {
-    reset();
-    loadMoreItems(); // NOTE: loads with null `lastItem`, so it renders the first page.
+    // reset
+    setItems(() => []);
+    presenterRef.current!.reset();
+    // initialize
+    loadMoreItems();
   }, [displayedUser]);
-
-  const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
-    presenterRef.current!.getUser(authToken, alias);
 
   const loadMoreItems = async () => {
     presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
   }
-
-  const reset = async () => {
-    setItems(() => []);
-    presenterRef.current!.reset();
-  };
 
   return (
     <div className="container px-0 overflow-visible vh-100">
