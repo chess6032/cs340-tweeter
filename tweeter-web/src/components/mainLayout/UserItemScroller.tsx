@@ -37,13 +37,6 @@ const UserItemScroller = (props: Props) => {
   // TL;DR: Passing in `null` is an optimization. We'd get the same result if we passed
   // `props.presenterFactory()` into useRef(), but that wouldn't be as efficient.
 
-  const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
-    presenter.getUser(authToken, alias);
-
-  const loadMoreItems = async () => {
-    presenter.loadMoreItems(authToken!, displayedUserAliasParam!);
-  }
-
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
     if (
@@ -66,12 +59,16 @@ const UserItemScroller = (props: Props) => {
     loadMoreItems(); // NOTE: loads with null `lastItem`, so it renders the first page.
   }, [displayedUser]);
 
+  const getUser = async (authToken: AuthToken, alias: string): Promise<User | null> => 
+    presenterRef.current!.getUser(authToken, alias);
+
+  const loadMoreItems = async () => {
+    presenterRef.current!.loadMoreItems(authToken!, displayedUserAliasParam!);
+  }
+
   const reset = async () => {
     setItems(() => []);
-    presenter.reset();
-
-    // setLastItem(() => null);
-    // setHasMoreItems(() => true);
+    presenterRef.current!.reset();
   };
 
   return (
@@ -80,7 +77,7 @@ const UserItemScroller = (props: Props) => {
         className="pr-0 mr-0"
         dataLength={items.length}
         next={loadMoreItems}
-        hasMore={presenter.hasMoreItems}
+        hasMore={presenterRef.current!.hasMoreItems}
         loader={<h4>Loading...</h4>}
       >
         {items.map((item, index) => (
