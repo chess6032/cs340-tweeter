@@ -1,39 +1,18 @@
-import { NavigateOptions, To } from "react-router-dom";
-import { AuthenticationService } from "../../model.service/AuthenticationService";
+import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
 
-export interface LoginView {
-  originalUrl?: string;
-  navigate: (to: To, options?: NavigateOptions) => void | Promise<void>; 
-  // ^ func signature for the func returned by React Router's useNavigate()
-  displayErrorMessage: (message: string) => void;
-}
+export class LoginPresenter extends AuthenticationPresenter {
 
-export class LoginPresenter {
-  private view: LoginView;
-  private service: AuthenticationService = new AuthenticationService();
-
-  private _rememberMe: boolean = false;
-  private _isLoading: boolean = false;
-
-  public constructor(view: LoginView) {
-    this.view = view;
-  }
-
-  public set rememberMe(value: boolean) {
-    this._rememberMe = value;
-  }
-
-  public get isLoading() {
-    return this._isLoading;
+  public constructor(view: AuthenticationView) {
+    super(view);
   }
 
   public async login(alias: string, password: string) {
     try {
-      this._isLoading = true;
+      this.isLoading = true;
 
       const [user, authToken] = await this.service.login(alias, password);
 
-      this.service.updateUserInfo(user, user, authToken, this._rememberMe);
+      this.service.updateUserInfo(user, user, authToken, this.rememberMe);
 
       if (!!this.view.originalUrl) {
         this.view.navigate(this.view.originalUrl);
@@ -45,7 +24,7 @@ export class LoginPresenter {
         `Failed to log user in because of exception: ${error}`,
       );
     } finally {
-      this._isLoading = false;
+      this.isLoading = false;
     }
   };
 }

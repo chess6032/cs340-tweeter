@@ -5,7 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
-import { LoginPresenter, LoginView } from "../../../presenter/authentication/LoginPresenter";
+import { AuthenticationView } from "../../../presenter/authentication/AuthenticationPresenter";
+import { LoginPresenter } from "../../../presenter/authentication/LoginPresenter";
+
 
 interface Props {
   originalUrl?: string;
@@ -22,7 +24,7 @@ const Login = (props: Props) => {
     return !alias || !password;
   };
 
-  const listener: LoginView = {
+  const listener: AuthenticationView = {
     originalUrl: props.originalUrl,
     navigate,
     displayErrorMessage
