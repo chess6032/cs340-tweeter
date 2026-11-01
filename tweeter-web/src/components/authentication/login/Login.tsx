@@ -28,6 +28,7 @@ const Login = (props: Props) => {
     displayErrorMessage
   }
 
+  // TODO: Do I need to make this a ref?
   const presenter: LoginPresenter = new LoginPresenter(listener);
 
   const doLogin = () => {
