@@ -2,11 +2,30 @@
 
 ## Milestone 2
 
-- BUG FIX: It appears I might have a bug where the followers/followees page scrolls forever.
-- Refactor to use MVP:
-  - Everything that uses `FakeData`.
-  - Every component for functionality that can be moved out into presenter/service classes.
-  - One hook: userNavigation hook, which can be moved into presenter.
+Refactor **every functionality that contacts the server** to use MVP. In total, there are **14** such functionalities: the 12 that use `FakeData`, and then `PostStatus` and `Logout` as well. View layer (React components/hooks) should only contain code that directly interacts with the user (display output/receiving input). 
+
+FOR EACH: 
+
+1. Create an app logic layer ("service").
+    - Cache data, implement algorithms, etc.&mdash;anything needed to realize the program's **non-UI functionality**.
+    - **Group related requests into the same service class**. In this program, there are 14 different kinds of requests the client sends to the server, but that does *not* mean you should make 14 different service classes.
+2. Create a Presenter layer.
+    - For the app's major components, and in some cases its hooks.
+    - **One presenter for each component/hook that accesses dummy data or has other non-UI logic.**
+      - e.g.:
+        - user input *validation* logic
+        - page management logic
+        - code calling service classes
+        - converting an image to a byte string
+        - password validation
+    - **Each presenter class should define a view interface** that is used by its component/hook. 
+      - This is the method through which the presenter will call its view. Hence, the view should have methods for passing data to the view for display, displaying messages to the viewer, enabling/disabling UI controls, etc.
+    - The more logic moved into the presenters the better, because presenter code is easier to test than view code.
+    - **Presenters should never interact directly with the user.** Should a presenter need to display a message to otherweise change the UI, it should do so through its view using the **observer pattern**.
+    - **All visual UI logic should go in the view layer, and all non-visual UI logic should go in the presenter layer.**
+
+> [!TIP]
+> You should end with at least **12 presenter classes**.
 
 ## Milestone 1
 
