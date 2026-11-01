@@ -51,7 +51,7 @@ const UserInfo = () => {
     user: User,
     selectedUser: User,
   ): Promise<boolean> => {
-    // TODO: Replace with the result of calling server
+    // Future milestone: Replace with the result of calling server
     return FakeData.instance.isFollower();
   };
 
@@ -70,7 +70,7 @@ const UserInfo = () => {
     authToken: AuthToken,
     user: User,
   ): Promise<number> => {
-    // TODO: Replace with the result of calling server
+    // Future milestone: Replace with the result of calling server
     return FakeData.instance.getFolloweeCount(user.alias);
   };
 
@@ -89,7 +89,7 @@ const UserInfo = () => {
     authToken: AuthToken,
     user: User,
   ): Promise<number> => {
-    // TODO: Replace with the result of calling server
+    // Future milestone: Replace with the result of calling server
     return FakeData.instance.getFollowerCount(user.alias);
   };
 
@@ -141,7 +141,7 @@ const UserInfo = () => {
     // Pause so we can see the follow message. Remove when connected to the server
     await new Promise((f) => setTimeout(f, 2000));
 
-    // TODO: Call the server
+    // Future milestone: Call the server
 
     const followerCount = await getFollowerCount(authToken, userToFollow);
     const followeeCount = await getFolloweeCount(authToken, userToFollow);
@@ -186,7 +186,7 @@ const UserInfo = () => {
     // Pause so we can see the unfollow message. Remove when connected to the server
     await new Promise((f) => setTimeout(f, 2000));
 
-    // TODO: Call the server
+    // Future milestone: Call the server
 
     const followerCount = await getFollowerCount(authToken, userToUnfollow);
     const followeeCount = await getFolloweeCount(authToken, userToUnfollow);

@@ -6,19 +6,34 @@ Refactor **every functionality that contacts the server** to use MVP. In total, 
 
 ### TODO
 
-Components/hooks to refactor:
+Functionalities to refactor:
 
 - Uses `FakeData`:
+  - [ ] `App`
+    - [X] `loadMoreFollowers()` (done in demo video)
+    - [X] `loadMoreFollowees()` (done in demo video)
+    - [ ] `loadMoreFeedItems()`
+    - [ ] `loadMoreStoryItems()`
   - [ ] `Login`
+    - [ ] `login()`
   - [ ] `Register`
+    - [ ] `register()`
   - [ ] `StatusItemScroller`
+    - [ ] `getUser()`
   - [ ] `UserInfoComponent`
+    - [ ] `getIsFollowerStatus()`
+    - [ ] `getFolloweeCount()`
+    - [ ] `getFollowerCount()`
   - [ ] `UserNavigationHook` (I think?)
+    - [ ] `getUser()`
 - Others:
   - [ ] `PostStatus`
+    - [ ] `submitPost()` (maybe???)
+    - [ ] `postStatus()` (maybe???)
   - [ ] `Logout`
+    - This one was explicitly mentioned in the spec but I don't appear to have a Logout component/class...????
 
-Uhhh... I'm not sure where I'm supposed to get up to 12 presenter classes from... but hopefully I'll find it out on the way...
+Crossing my fingers I'll end up with 12 presenter classes... otherwise I'll have to ignore Douglas Adams advice and start panicking.
 
 ### Steps for converting to MVP
 
