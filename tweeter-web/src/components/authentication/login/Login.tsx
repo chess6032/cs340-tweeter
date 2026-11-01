@@ -7,6 +7,7 @@ import { AuthToken, FakeData, User } from "tweeter-shared";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
 import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
+import { LoginPresenter, LoginView } from "../../../presenter/authentication/LoginPresenter";
 
 interface Props {
   originalUrl?: string;
@@ -15,16 +16,25 @@ interface Props {
 const Login = (props: Props) => {
   const [alias, setAlias] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { updateUserInfo } = useUserInfoActions();
   const { displayErrorMessage } = useMessageActions();
 
   const checkSubmitButtonStatus = (): boolean => {
     return !alias || !password;
   };
+
+  const listener: LoginView = {
+    originalUrl: props.originalUrl,
+    navigate,
+    displayErrorMessage
+  }
+
+  const presenter: LoginPresenter = new LoginPresenter(listener);
+
+  const doLogin = () => {
+    presenter.login(alias, password);
+  }
 
   const loginOnEnter = (event: React.KeyboardEvent<HTMLElement>): void => {
     if (event.key == "Enter" && !checkSubmitButtonStatus()) {
@@ -97,9 +107,9 @@ const Login = (props: Props) => {
       oAuthHeading="Sign in with:"
       inputFieldFactory={inputFieldFactory}
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
-      setRememberMe={setRememberMe}
+      setRememberMe={(value: boolean) => {presenter.rememberMe = value}}
       submitButtonDisabled={checkSubmitButtonStatus}
-      isLoading={isLoading}
+      isLoading={presenter.isLoading}
       submit={doLogin}
     />
   );

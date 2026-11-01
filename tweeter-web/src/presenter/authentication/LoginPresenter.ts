@@ -23,6 +23,10 @@ export class LoginPresenter {
     this._rememberMe = value;
   }
 
+  public get isLoading() {
+    return this._isLoading;
+  }
+
   public async login(alias: string, password: string) {
     try {
       this._isLoading = true;

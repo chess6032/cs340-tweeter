@@ -14,8 +14,8 @@ Functionalities to refactor:
     - [X] `loadMoreFollowees()` (done in demo video)
     - [X] `loadMoreFeedItems()`
     - [X] `loadMoreStoryItems()`
-  - [ ] `Login`
-    - [ ] `login()`
+  - [X] `Login`
+    - [X] `login()`
   - [ ] `Register`
     - [ ] `register()`
   - [ ] `StatusItemScroller`
