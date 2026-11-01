@@ -18,8 +18,8 @@ Functionalities to refactor:
     - [X] `login()`
   - [ ] `Register`
     - [ ] `register()`
-  - [ ] `StatusItemScroller`
-    - [ ] `getUser()`
+  - [X] `StatusItemScroller`
+    - [X] `getUser()`
   - [ ] `UserInfoComponent`
     - [ ] `getIsFollowerStatus()`
     - [ ] `getFolloweeCount()`
