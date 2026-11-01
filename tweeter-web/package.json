@@ -27,8 +27,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite",
+    "clean": "rm -rf dist/*",
     "build": "tsc && vite build",
+    "start": "vite",
+
+    "go": "npm run clean && npm run build && npm run start",
+
     "serve": "vite preview",
     "reload": "npm run build && npm run serve"
   },
