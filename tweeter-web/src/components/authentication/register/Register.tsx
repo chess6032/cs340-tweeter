@@ -3,11 +3,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthenticationFormLayout from "../AuthenticationFormLayout";
-import { AuthToken, FakeData, User } from "tweeter-shared";
 import { Buffer } from "buffer";
 import AuthenticationFields from "../AuthenticationFields";
 import { useMessageActions } from "../../toaster/MessageHooks";
-import { useUserInfoActions } from "../../userInfo/UserInfoHooks";
+import { AuthenticationView } from "../../../presenter/authentication/AuthenticationPresenter";
+import { RegisterPresenter } from "../../../presenter/authentication/RegisterPresenter";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -17,12 +17,12 @@ const Register = () => {
   const [imageBytes, setImageBytes] = useState<Uint8Array>(new Uint8Array());
   const [imageUrl, setImageUrl] = useState<string>("");
   const [imageFileExtension, setImageFileExtension] = useState<string>("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [rememberMe, setRememberMe] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { updateUserInfo } = useUserInfoActions();
   const { displayErrorMessage } = useMessageActions();
+  // const { updateUserInfo } = useUserInfoActions();
 
   const checkSubmitButtonStatus = (): boolean => {
     return (
@@ -34,6 +34,25 @@ const Register = () => {
       !imageFileExtension
     );
   };
+
+  const listener: AuthenticationView = {
+    navigate,
+    displayErrorMessage
+  }
+
+  // FIXME: does presenter need to be a ref?
+  const presenter: RegisterPresenter = new RegisterPresenter(listener);
+
+  const doRegister = () => {
+    presenter.register(
+      firstName,
+      lastName,
+      alias,
+      password,
+      imageBytes,
+      imageFileExtension
+    );
+  }
 
   const registerOnEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key == "Enter" && !checkSubmitButtonStatus()) {
@@ -82,52 +101,52 @@ const Register = () => {
     return file.name.split(".").pop();
   };
 
-  // FIXME: code dupe with Login::doLogin() ?
-  const doRegister = async () => {
-    try {
-      setIsLoading(true);
+  // // FIXME: code dupe with Login::doLogin() ?
+  // const doRegister = async () => {
+  //   try {
+  //     setIsLoading(true);
 
-      const [user, authToken] = await register(
-        firstName,
-        lastName,
-        alias,
-        password,
-        imageBytes,
-        imageFileExtension
-      );
+  //     const [user, authToken] = await register(
+  //       firstName,
+  //       lastName,
+  //       alias,
+  //       password,
+  //       imageBytes,
+  //       imageFileExtension
+  //     );
 
-      updateUserInfo(user, user, authToken, rememberMe);
-      navigate(`/feed/${user.alias}`);
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to register user because of exception: ${error}`,
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  //     updateUserInfo(user, user, authToken, rememberMe);
+  //     navigate(`/feed/${user.alias}`);
+  //   } catch (error) {
+  //     displayErrorMessage(
+  //       `Failed to register user because of exception: ${error}`,
+  //     );
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  const register = async (
-    firstName: string,
-    lastName: string,
-    alias: string,
-    password: string,
-    userImageBytes: Uint8Array,
-    imageFileExtension: string
-  ): Promise<[User, AuthToken]> => {
-    // Not neded now, but will be needed when you make the request to the server in milestone 3
-    const imageStringBase64: string =
-      Buffer.from(userImageBytes).toString("base64");
+  // const register = async (
+  //   firstName: string,
+  //   lastName: string,
+  //   alias: string,
+  //   password: string,
+  //   userImageBytes: Uint8Array,
+  //   imageFileExtension: string
+  // ): Promise<[User, AuthToken]> => {
+  //   // Not neded now, but will be needed when you make the request to the server in milestone 3
+  //   const imageStringBase64: string =
+  //     Buffer.from(userImageBytes).toString("base64");
 
-    // Future milestone: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
+  //   // Future milestone: Replace with the result of calling the server
+  //   const user = FakeData.instance.firstUser;
 
-    if (user === null) {
-      throw new Error("Invalid registration");
-    }
+  //   if (user === null) {
+  //     throw new Error("Invalid registration");
+  //   }
 
-    return [user, FakeData.instance.authToken];
-  };
+  //   return [user, FakeData.instance.authToken];
+  // };
 
   const inputFieldFactory = () => {
     return (
@@ -195,9 +214,9 @@ const Register = () => {
       oAuthHeading="Register with:"
       inputFieldFactory={inputFieldFactory}
       switchAuthenticationMethodFactory={switchAuthenticationMethodFactory}
-      setRememberMe={setRememberMe}
+      setRememberMe={(value: boolean) => { presenter.rememberMe = value; }}
       submitButtonDisabled={checkSubmitButtonStatus}
-      isLoading={isLoading}
+      isLoading={presenter.isLoading}
       submit={doRegister}
     />
   );
