@@ -2,9 +2,25 @@
 
 ## Milestone 2
 
-Refactor **every functionality that contacts the server** to use MVP. In total, there are **14** such functionalities: the 12 that use `FakeData`, and then `PostStatus` and `Logout` as well. View layer (React components/hooks) should only contain code that directly interacts with the user (display output/receiving input). 
+Refactor **every functionality that contacts the server** to use MVP. In total, there are **14** such functionalities: the 12 that use `FakeData`, and then `PostStatus` and `Logout` as well. View layer (React components/hooks) should only contain code that directly interacts with the user (display output/receiving input).
 
-FOR EACH: 
+### TODO
+
+Components/hooks to refactor:
+
+- Uses `FakeData`:
+  - [ ] `Login`
+  - [ ] `Register`
+  - [ ] `StatusItemScroller`
+  - [ ] `UserInfoComponent`
+  - [ ] `UserNavigationHook` (I think?)
+- Others:
+  - [ ] `PostStatus`
+  - [ ] `Logout`
+
+Uhhh... I'm not sure where I'm supposed to get up to 12 presenter classes from... but hopefully I'll find it out on the way...
+
+### Steps for converting to MVP
 
 1. Create an app logic layer ("service").
     - Cache data, implement algorithms, etc.&mdash;anything needed to realize the program's **non-UI functionality**.
