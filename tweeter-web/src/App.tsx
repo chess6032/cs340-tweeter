@@ -18,6 +18,8 @@ import { UserItemView } from "./presenter/UserItemPresenter";
 import { FolloweePresenter } from "./presenter/FolloweePresenter";
 import { FollowerPresenter } from "./presenter/FollowerPresenter";
 import StatusService from "./model.service/StatusService";
+import { StatusItemView } from "./presenter/StatusItemPresenter";
+import { StoryPresenter } from "./presenter/StoryPresenter";
 
 const App = () => {
   const { currentUser, authToken } = useUserInfo();
@@ -52,6 +54,8 @@ const AuthenticatedRoutes = () => {
           path="feed/:displayedUser" 
           element={<StatusItemScroller
             featurePath="/feed"
+            presenterFactory={(view: StatusItemView) => new StoryPresenter(view)}
+            // TODO: create FeedPresenter class and instantiate that in this factory
           />} 
         />
         <Route 
@@ -59,6 +63,7 @@ const AuthenticatedRoutes = () => {
           path="story/:displayedUser" 
           element={<StatusItemScroller 
             featurePath="/story"
+            presenterFactory={(view: StatusItemView) => new StoryPresenter(view)}
           />}
         />
         <Route 

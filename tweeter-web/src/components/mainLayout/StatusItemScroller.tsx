@@ -5,10 +5,11 @@ import { useParams } from "react-router-dom";
 import StatusItem from "../statusItem/StatusItem";
 import { useMessageActions } from "../toaster/MessageHooks";
 import { useUserInfo, useUserInfoActions } from "../userInfo/UserInfoHooks";
-import { StoryPresenter, StoryView } from "../../presenter/StoryPresenter";
+import { StatusItemPresenter, StatusItemView } from "../../presenter/StatusItemPresenter";
 
 interface Props {
-  featurePath: string
+  featurePath: string;
+  presenterFactory: (listener: StatusItemView) => StatusItemPresenter;
 }
 
 const StatusItemScroller = (props: Props) => {
@@ -19,13 +20,13 @@ const StatusItemScroller = (props: Props) => {
   const { setDisplayedUser } = useUserInfoActions();
   const { displayedUser: displayedUserAliasParam } = useParams();
 
-  const listener: StoryView = { // observer for updating this view
+  const listener: StatusItemView = { // observer for updating this view
     addItems: (newItems: Status[]) =>
       setItems((previousItems) => [...previousItems, ...newItems]),
     displayErrorMessage
   }; 
 
-  const presenter = new StoryPresenter(listener);
+  const presenter = props.presenterFactory(listener);
 
   // Update the displayed user context variable whenever the displayedUser url parameter changes. This allows browser forward and back buttons to work correctly.
   useEffect(() => {
