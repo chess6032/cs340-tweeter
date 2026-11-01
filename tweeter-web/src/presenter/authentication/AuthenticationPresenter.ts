@@ -19,12 +19,13 @@ export class AuthenticationPresenter {
     this._view = view;
   }
 
-  public get isLoading() { return this._isLoading; }
+  public get rememberMe(): boolean { return this._rememberMe; }
+  public get isLoading(): boolean  { return this._isLoading; }
 
   public set rememberMe(value: boolean) { this._rememberMe = value; }
+  public set isLoading(value: boolean)  { this._isLoading = value; }
 
-  protected get view()    { return this._view; }
-  protected get service() { return this._service; }
+  protected get view()       { return this._view; }
+  protected get service()    { return this._service; }
 
-  protected set isLoading(value: boolean) { this._isLoading = value; }
 }
