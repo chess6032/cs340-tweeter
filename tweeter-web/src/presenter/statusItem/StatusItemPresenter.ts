@@ -30,7 +30,7 @@ export abstract class StatusItemPresenter {
   ): Promise<User | null> {
     // Future milestone: Replace with the result of calling server
     return this.userService.getUser(authToken, alias);
-  };
+  }
 
   public reset() {
     this._lastItem = null;

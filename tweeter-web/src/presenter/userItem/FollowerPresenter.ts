@@ -32,6 +32,6 @@ export class FollowerPresenter extends UserItemPresenter {
         `Failed to load followers because of exception: ${error}`,
       );
     }
-  };
+  }
 
 }

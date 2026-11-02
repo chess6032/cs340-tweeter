@@ -30,5 +30,5 @@ export class FeedPresenter extends StatusItemPresenter{
         `Failed to load feed items because of exception: ${error}`,
       );
     }
-  };
+  }
 }

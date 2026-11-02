@@ -40,7 +40,7 @@ export class RegisterPresenter extends AuthenticationPresenter {
     } finally {
       this.view.setIsLoading(false);
     }
-  };
+  }
 
   ////////////////// IMAGE LOGIC //////////////////
   
@@ -75,9 +75,9 @@ export class RegisterPresenter extends AuthenticationPresenter {
       view.setImageUrl("");
       this.imageBytes = new Uint8Array();
     }
-  };
+  }
 
   getFileExtension (file: File): string | undefined {
     return file.name.split(".").pop();
-  };
+  }
 }

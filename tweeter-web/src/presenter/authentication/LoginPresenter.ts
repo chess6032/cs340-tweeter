@@ -26,5 +26,5 @@ export class LoginPresenter extends AuthenticationPresenter {
     } finally {
       this.view.setIsLoading(false);
     }
-  };
+  }
 }

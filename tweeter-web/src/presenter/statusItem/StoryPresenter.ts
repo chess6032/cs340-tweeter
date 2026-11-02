@@ -30,5 +30,5 @@ export class StoryPresenter extends StatusItemPresenter{
         `Failed to load story items because of exception: ${error}`,
       );
     }
-  };
+  }
 }
