@@ -24,5 +24,5 @@ export class UserInfoService {
   ): Promise<number> {
     // Future milestone: Replace with the result of calling server
     return FakeData.instance.getFollowerCount(user.alias);
-  };
+  }
 }

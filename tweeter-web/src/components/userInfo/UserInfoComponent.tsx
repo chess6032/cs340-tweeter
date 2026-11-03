@@ -7,10 +7,10 @@ import { useUserInfo, useUserInfoActions } from "./UserInfoHooks";
 import { UserInfoPresenter, UserInfoView } from "../../presenter/UserInfoPresenter";
 
 const UserInfo = () => {
-  const [isFollower, setIsFollower] = useState(false);
-  const [followeeCount, setFolloweeCount] = useState(-1);
-  const [followerCount, setFollowerCount] = useState(-1);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isFollower, setIsFollower] = useState(false);
+  // const [followeeCount, setFolloweeCount] = useState(-1);
+  // const [followerCount, setFollowerCount] = useState(-1);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const { displayErrorMessage, displayInfoMessage, deleteMessage } = useMessageActions();
 
@@ -19,7 +19,9 @@ const UserInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const listener: UserInfoView = {}
+  const listener: UserInfoView = {
+    displayErrorMessage
+  }
   const presenterRef = useRef<UserInfoPresenter | null>(null);
   if (!presenterRef.current) {
     presenterRef.current = new UserInfoPresenter(listener);
@@ -30,29 +32,29 @@ const UserInfo = () => {
   }
 
   useEffect(() => {
-    setIsFollowerStatus(authToken!, currentUser!, displayedUser!);
-    setNumbFollowees(authToken!, displayedUser!);
-    setNumbFollowers(authToken!, displayedUser!);
+    presenterRef.current!.setIsFollowerStatus(authToken!, currentUser!, displayedUser!);
+    presenterRef.current!.setNumbFollowees(authToken!, displayedUser!);
+    presenterRef.current!.setNumbFollowers(authToken!, displayedUser!);
   }, [displayedUser]);
 
-  // PRESENTER? SERVICE?
-  const setIsFollowerStatus = async (
-    authToken: AuthToken,
-    currentUser: User,
-    displayedUser: User,
-  ) => {
-    try {
-      if (currentUser === displayedUser) {
-        setIsFollower(false);
-      } else {
-        setIsFollower(
-          await presenterRef.current!.getIsFollowerStatus(authToken!, currentUser!, displayedUser!),
-        );
-      }
-    } catch (error) {
-      displayErrorMessage(`Failed to determine follower status because of exception: ${error}`);
-    }
-  };
+  //////////// PRESENTER? ////////////
+  // const setIsFollowerStatus = async (
+  //   authToken: AuthToken,
+  //   currentUser: User,
+  //   displayedUser: User,
+  // ) => {
+  //   try {
+  //     if (currentUser === displayedUser) {
+  //       setIsFollower(false);
+  //     } else {
+  //       setIsFollower(
+  //         await presenterRef.current!.getIsFollowerStatus(authToken!, currentUser!, displayedUser!),
+  //       );
+  //     }
+  //   } catch (error) {
+  //     displayErrorMessage(`Failed to determine follower status because of exception: ${error}`);
+  //   }
+  // };
 
   //////////// SERVICE ////////////
   // const getIsFollowerStatus = async (
@@ -64,18 +66,17 @@ const UserInfo = () => {
   //   return FakeData.instance.isFollower();
   // };
 
-
-  // PRESENTER? SERVICE?
-  const setNumbFollowees = async (
-    authToken: AuthToken,
-    displayedUser: User,
-  ) => {
-    try {
-      setFolloweeCount(await presenterRef.current!.getFolloweeCount(authToken, displayedUser));
-    } catch (error) {
-      displayErrorMessage(`Failed to get followees count because of exception: ${error}`);
-    }
-  };
+  //////////// PRESENTER? ////////////
+  // const setNumbFollowees = async (
+  //   authToken: AuthToken,
+  //   displayedUser: User,
+  // ) => {
+  //   try {
+  //     setFolloweeCount(await presenterRef.current!.getFolloweeCount(authToken, displayedUser));
+  //   } catch (error) {
+  //     displayErrorMessage(`Failed to get followees count because of exception: ${error}`);
+  //   }
+  // };
 
   //////////// SERVICE ////////////
   // const getFolloweeCount = async (
@@ -86,17 +87,17 @@ const UserInfo = () => {
   //   return FakeData.instance.getFolloweeCount(user.alias);
   // };
 
-  // PRESENTER? SERVICE?
-  const setNumbFollowers = async (
-    authToken: AuthToken,
-    displayedUser: User,
-  ) => {
-    try {
-      setFollowerCount(await presenterRef.current!.getFollowerCount(authToken, displayedUser));
-    } catch (error) {
-      displayErrorMessage(`Failed to get followers count because of exception: ${error}`);
-    }
-  };
+  //////////// PRESENTER? ////////////
+  // const setNumbFollowers = async (
+  //   authToken: AuthToken,
+  //   displayedUser: User,
+  // ) => {
+  //   try {
+  //     setFollowerCount(await presenterRef.current!.getFollowerCount(authToken, displayedUser));
+  //   } catch (error) {
+  //     displayErrorMessage(`Failed to get followers count because of exception: ${error}`);
+  //   }
+  // };
 
   //////////// SERVICE ////////////
   // const getFollowerCount = async (
@@ -107,20 +108,20 @@ const UserInfo = () => {
   //   return FakeData.instance.getFollowerCount(user.alias);
   // };
 
-  // VIEW
+  //////////// VIEW ////////////
   const switchToLoggedInUser = (event: React.MouseEvent): void => {
     event.preventDefault();
     setDisplayedUser(currentUser!);
     navigate(`${getBaseUrl()}/${currentUser!.alias}`);
   };
 
-  // PRESENTER
+  //////////// PRESENTER ////////////
   const getBaseUrl = (): string => {
     const segments = location.pathname.split("/@");
     return segments.length > 1 ? segments[0] : "/";
   };
 
-  // PRESENTER
+  ////////////// PRESENTER ////////////
   const followDisplayedUser = async (
     event: React.MouseEvent,
   ): Promise<void> => {
@@ -151,6 +152,7 @@ const UserInfo = () => {
     }
   };
 
+  //////////// PRESENTER? SERVICE? IDK ////////////
   const follow = async (
     authToken: AuthToken,
     userToFollow: User,
@@ -166,6 +168,7 @@ const UserInfo = () => {
     return [followerCount, followeeCount];
   };
 
+  //////////// PRESENTER? SERVICE? VIEW? IDK ////////////
   const unfollowDisplayedUser = async (
     event: React.MouseEvent,
   ): Promise<void> => {
@@ -196,6 +199,7 @@ const UserInfo = () => {
     }
   };
 
+  //////////// PRESENTER? ////////////
   const unfollow = async (
     authToken: AuthToken,
     userToUnfollow: User,
