@@ -16,6 +16,7 @@ export interface UserInfoView {
   deleteMessage: (messageId: string) => void;
 }
 
+// TODO: move service logic into service class(es).
 export class UserInfoPresenter {
   private service: UserInfoService = new UserInfoService();
   private view: UserInfoView;
@@ -23,6 +24,8 @@ export class UserInfoPresenter {
   public constructor(view: UserInfoView) {
     this.view = view;
   }
+
+  // TODO: perhaps all (or at least most) functions that call these getters should be moved into the SERVICE CLASS ?
 
   public async getIsFollowerStatus(
     authToken: AuthToken,
@@ -40,6 +43,7 @@ export class UserInfoPresenter {
     return this.service.getFollowerCount(authToken, user);
   }
 
+    /****** TODO: PRESENTER/SERVICE? ******/
   public async setIsFollowerStatus(
     authToken: AuthToken,
     currentUser: User,
@@ -58,6 +62,7 @@ export class UserInfoPresenter {
     }
   }
 
+  /****** TODO: PRESENTER/SERVICE? ******/
   public async setNumbFollowees(
     authToken: AuthToken,
     displayedUser: User,
@@ -69,6 +74,7 @@ export class UserInfoPresenter {
     }
   }
 
+  /****** TODO: PRESENTER/SERVICE? ******/
   public async setNumbFollowers (
     authToken: AuthToken,
     displayedUser: User,
@@ -80,6 +86,7 @@ export class UserInfoPresenter {
     }
   }
 
+  /****** PRESENTER ******/
   public async followDisplayedUser(
     authToken: AuthToken,
     displayedUser: User
@@ -109,6 +116,7 @@ export class UserInfoPresenter {
     }
   }
   
+  /****** TODO: SERVICE ******/
   public async follow(
     authToken: AuthToken,
     userToFollow: User,
@@ -123,7 +131,8 @@ export class UserInfoPresenter {
 
     return [followerCount, followeeCount];
   };
-  
+
+  /****** PRESENTER ******/
   public async unfollowDisplayedUser(authToken: AuthToken, displayedUser: User) {
     var unfollowingUserToast = "";
 
@@ -150,6 +159,7 @@ export class UserInfoPresenter {
     }
   }
 
+  /****** TODO: SERVICE ******/
   public async unfollow(
     authToken: AuthToken,
     userToUnfollow: User,
@@ -165,11 +175,13 @@ export class UserInfoPresenter {
     return [followerCount, followeeCount];
   };
 
+  /****** PRESENTER ******/
   public switchToLoggedInUser(currentUser: User, location: RRLocation<any>) {
     this.view.setDisplayedUser(currentUser);
     this.view.navigate(`${this.getBaseUrl(location)}/${currentUser.alias}`);
   }
 
+  /****** PRESENTER ******/
   public getBaseUrl(location: RRLocation<any>): string {
     const segments = location.pathname.split("/@");
     return segments.length > 1 ? segments[0] : "/";
