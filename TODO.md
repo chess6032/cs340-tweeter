@@ -4,6 +4,11 @@
 
 Refactor **every functionality that contacts the server** to use MVP. In total, there are **14** such functionalities: the 12 that use `FakeData`, and then `PostStatus` and `Logout` as well. View layer (React components/hooks) should only contain code that directly interacts with the user (display output/receiving input).
 
+> [!NOTE]
+> A presenter's view interface is how it *updates* its view (per observer pattern). 
+> 
+> Ask: *Is a presenter pushing this out, or pulling it in?* Pushing out goes in the interface. Pulling in goes in a parameter in a function, or the presenter's constructor (if it's something that never changes).
+
 ### TODO
 
 Functionalities to refactor:
