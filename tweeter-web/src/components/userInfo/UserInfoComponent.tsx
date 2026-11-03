@@ -183,46 +183,47 @@ const UserInfo = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    var unfollowingUserToast = "";
+    presenterRef.current!.unfollowDisplayedUser(authToken!, displayedUser!);
+    // var unfollowingUserToast = "";
 
-    try {
-      setIsLoading(true);
-      unfollowingUserToast = displayInfoMessage(
-        `Unfollowing ${displayedUser!.name}...`,
-        0,
-      );
+    // try {
+    //   setIsLoading(true);
+    //   unfollowingUserToast = displayInfoMessage(
+    //     `Unfollowing ${displayedUser!.name}...`,
+    //     0,
+    //   );
 
-      const [followerCount, followeeCount] = await unfollow(
-        authToken!,
-        displayedUser!,
-      );
+    //   const [followerCount, followeeCount] = await unfollow(
+    //     authToken!,
+    //     displayedUser!,
+    //   );
 
-      setIsFollower(false);
-      setFollowerCount(followerCount);
-      setFolloweeCount(followeeCount);
-    } catch (error) {
-      displayErrorMessage(`Failed to unfollow user because of exception: ${error}`);
-    } finally {
-      deleteMessage(unfollowingUserToast);
-      setIsLoading(false);
-    }
+    //   setIsFollower(false);
+    //   setFollowerCount(followerCount);
+    //   setFolloweeCount(followeeCount);
+    // } catch (error) {
+    //   displayErrorMessage(`Failed to unfollow user because of exception: ${error}`);
+    // } finally {
+    //   deleteMessage(unfollowingUserToast);
+    //   setIsLoading(false);
+    // }
   };
 
   //////////// PRESENTER? ////////////
-  const unfollow = async (
-    authToken: AuthToken,
-    userToUnfollow: User,
-  ): Promise<[followerCount: number, followeeCount: number]> => {
-    // Pause so we can see the unfollow message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
+  // const unfollow = async (
+  //   authToken: AuthToken,
+  //   userToUnfollow: User,
+  // ): Promise<[followerCount: number, followeeCount: number]> => {
+  //   // Pause so we can see the unfollow message. Remove when connected to the server
+  //   await new Promise((f) => setTimeout(f, 2000));
 
-    // Future milestone: Call the server
+  //   // Future milestone: Call the server
 
-    const followerCount = await presenterRef.current!.getFollowerCount(authToken, userToUnfollow);
-    const followeeCount = await presenterRef.current!.getFolloweeCount(authToken, userToUnfollow);
+  //   const followerCount = await presenterRef.current!.getFollowerCount(authToken, userToUnfollow);
+  //   const followeeCount = await presenterRef.current!.getFolloweeCount(authToken, userToUnfollow);
 
-    return [followerCount, followeeCount];
-  };
+  //   return [followerCount, followeeCount];
+  // };
 
   return (
     <>

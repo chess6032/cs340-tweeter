@@ -120,4 +120,45 @@ export class UserInfoPresenter {
 
     return [followerCount, followeeCount];
   };
+  
+  public async unfollowDisplayedUser(authToken: AuthToken, displayedUser: User) {
+    var unfollowingUserToast = "";
+
+    try {
+      this.view.setIsLoading(true);
+      unfollowingUserToast = this.view.displayInfoMessage(
+        `Unfollowing ${displayedUser!.name}...`,
+        0,
+      );
+
+      const [followerCount, followeeCount] = await this.unfollow(
+        authToken!,
+        displayedUser!,
+      );
+
+      this.view.setIsFollower(false);
+      this.view.setFollowerCount(followerCount);
+      this.view.setFolloweeCount(followeeCount);
+    } catch (error) {
+      this.view.displayErrorMessage(`Failed to unfollow user because of exception: ${error}`);
+    } finally {
+      this.view.deleteMessage(unfollowingUserToast);
+      this.view.setIsLoading(false);
+    }
+  }
+
+  public async unfollow(
+    authToken: AuthToken,
+    userToUnfollow: User,
+  ): Promise<[followerCount: number, followeeCount: number]> {
+    // Pause so we can see the unfollow message. Remove when connected to the server
+    await new Promise((f) => setTimeout(f, 2000));
+
+    // Future milestone: Call the server
+
+    const followerCount = await this.getFollowerCount(authToken, userToUnfollow);
+    const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);
+
+    return [followerCount, followeeCount];
+  };
 }
