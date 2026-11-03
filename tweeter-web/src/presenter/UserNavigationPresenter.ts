@@ -1,7 +1,6 @@
 import { AuthToken, User } from "tweeter-shared";
 import UserService from "../model.service/UserService";
 import { NavigateOptions, To } from "react-router-dom";
-import { useUserInfo, useUserInfoActions } from "../components/userInfo/UserInfoHooks";
 
 export interface UserNavigationView {
   navigate: (to: To, options?: NavigateOptions) => void | Promise<void>; 
