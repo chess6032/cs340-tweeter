@@ -22,7 +22,7 @@ export class UserInfoService {
     authToken: AuthToken,
     user: User,
   ): Promise<number> {
-    // Future milestone: Replace with the result of calling server
+    // FUTURE MILESTONE: Replace with the result of calling server
     return FakeData.instance.getFollowerCount(user.alias);
   }
 
@@ -33,7 +33,7 @@ export class UserInfoService {
     // Pause so we can see the follow message. Remove when connected to the server
     await new Promise((f) => setTimeout(f, 2000));
 
-    // Future milestone: Call the server
+    // FUTURE MILESTONE: Call the server
 
     const followerCount = await this.getFollowerCount(authToken, userToFollow);
     const followeeCount = await this.getFolloweeCount(authToken, userToFollow);
@@ -48,7 +48,7 @@ export class UserInfoService {
     // Pause so we can see the unfollow message. Remove when connected to the server
     await new Promise((f) => setTimeout(f, 2000));
 
-    // Future milestone: Call the server
+    // FUTURE MILESTONE: Call the server
 
     const followerCount = await this.getFollowerCount(authToken, userToUnfollow);
     const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);

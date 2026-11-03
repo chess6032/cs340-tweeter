@@ -2,7 +2,6 @@ import { AuthToken, User } from "tweeter-shared";
 import { UserInfoService } from "../model.service/UserInfoService";
 import { NavigateOptions, To, Location as RRLocation } from "react-router-dom";
 
-
 export interface UserInfoView {
   setIsFollower: (value: boolean) => void;
   setFolloweeCount: (value: number) => void;
@@ -10,13 +9,12 @@ export interface UserInfoView {
   setIsLoading: (value: boolean) => void;
   setDisplayedUser: (user: User) => void;
   
-  navigate: (to: To, options?: NavigateOptions) => void | Promise<void>; 
+  navigate: (to: To, options?: NavigateOptions) => void | Promise<void>;
   displayErrorMessage: (message: string) => string;
   displayInfoMessage: (message: string, duration: number) => string;
   deleteMessage: (messageId: string) => void;
 }
 
-// TODO: move service logic into service class(es).
 export class UserInfoPresenter {
   private service: UserInfoService = new UserInfoService();
   private view: UserInfoView;
@@ -25,7 +23,6 @@ export class UserInfoPresenter {
     this.view = view;
   }
 
-  /****** PRESENTER/SERVICE ******/
   public async setIsFollowerStatus(
     authToken: AuthToken,
     currentUser: User,
@@ -44,7 +41,6 @@ export class UserInfoPresenter {
     }
   }
 
-  /****** PRESENTER/SERVICE ******/
   public async setNumbFollowees(
     authToken: AuthToken,
     displayedUser: User,
@@ -56,7 +52,6 @@ export class UserInfoPresenter {
     }
   }
 
-  /****** PRESENTER/SERVICE ******/
   public async setNumbFollowers (
     authToken: AuthToken,
     displayedUser: User,
@@ -68,7 +63,6 @@ export class UserInfoPresenter {
     }
   }
 
-  /****** PRESENTER ******/
   public async followDisplayedUser(
     authToken: AuthToken,
     displayedUser: User
@@ -97,24 +91,7 @@ export class UserInfoPresenter {
       this.view.setIsLoading(false);
     }
   }
-  
-  /****** SERVICE ******/
-  // public async follow(
-  //   authToken: AuthToken,
-  //   userToFollow: User,
-  // ): Promise<[followerCount: number, followeeCount: number]> {
-  //   // Pause so we can see the follow message. Remove when connected to the server
-  //   await new Promise((f) => setTimeout(f, 2000));
 
-  //   // Future milestone: Call the server
-
-  //   const followerCount = await this.getFollowerCount(authToken, userToFollow);
-  //   const followeeCount = await this.getFolloweeCount(authToken, userToFollow);
-
-  //   return [followerCount, followeeCount];
-  // };
-
-  /****** PRESENTER ******/
   public async unfollowDisplayedUser(authToken: AuthToken, displayedUser: User) {
     var unfollowingUserToast = "";
 
@@ -141,29 +118,11 @@ export class UserInfoPresenter {
     }
   }
 
-  /****** SERVICE ******/
-  // public async unfollow(
-  //   authToken: AuthToken,
-  //   userToUnfollow: User,
-  // ): Promise<[followerCount: number, followeeCount: number]> {
-  //   // Pause so we can see the unfollow message. Remove when connected to the server
-  //   await new Promise((f) => setTimeout(f, 2000));
-
-  //   // Future milestone: Call the server
-
-  //   const followerCount = await this.getFollowerCount(authToken, userToUnfollow);
-  //   const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);
-
-  //   return [followerCount, followeeCount];
-  // };
-
-  /****** PRESENTER ******/
   public switchToLoggedInUser(currentUser: User, location: RRLocation<any>) {
     this.view.setDisplayedUser(currentUser);
     this.view.navigate(`${this.getBaseUrl(location)}/${currentUser.alias}`);
   }
 
-  /****** PRESENTER ******/
   public getBaseUrl(location: RRLocation<any>): string {
     const segments = location.pathname.split("/@");
     return segments.length > 1 ? segments[0] : "/";
