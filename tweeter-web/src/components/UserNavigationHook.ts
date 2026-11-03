@@ -3,6 +3,7 @@ import { AuthToken, User, FakeData } from "tweeter-shared";
 import { useUserInfo, useUserInfoActions } from "./userInfo/UserInfoHooks";
 import { useMessageActions } from "./toaster/MessageHooks";
 import { UserNavigationPresenter, UserNavigationView } from "../presenter/UserNavigationPresenter";
+import { useRef } from "react";
 
 
 const useUserNavigation = (featurePath: string) => {
@@ -11,27 +12,29 @@ const useUserNavigation = (featurePath: string) => {
   const { displayedUser, authToken } = useUserInfo();
   const { setDisplayedUser, } = useUserInfoActions();
 
-  const listener: UserNavigationView = {};
-  const presenter = new UserNavigationPresenter(listener);
+  const listener: UserNavigationView = {
+    navigate,
+    displayErrorMessage,
+    setDisplayedUser
+  };
+
+  const presenterRef = useRef<UserNavigationPresenter | null>(null);
+  if (!presenterRef.current) {
+    presenterRef.current = new UserNavigationPresenter(
+      listener, 
+      featurePath
+    );
+  }
 
   /* navigateToUser() */
   return async (event: React.MouseEvent): Promise<void> => {
     event.preventDefault();
-
-    try {
-      const alias = presenter.extractAlias(event.target.toString());
-
-      const toUser = await presenter.getUser(authToken!, alias);
-
-      if (toUser) {
-        if (!toUser.equals(displayedUser!)) {
-          setDisplayedUser(toUser);
-          navigate(`${featurePath}/${toUser.alias}`);
-        }
-      }
-    } catch (error) {
-      displayErrorMessage(`Failed to get user because of exception: ${error}`);
-    }
+    const eventTarget = event.target.toString();
+    return presenterRef.current!.navigateToUser(
+      displayedUser!,
+      authToken!,
+      eventTarget
+    );
   };
 }
 
