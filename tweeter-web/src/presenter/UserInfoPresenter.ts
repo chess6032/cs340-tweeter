@@ -6,8 +6,11 @@ export interface UserInfoView {
   setIsFollower: (value: boolean) => void;
   setFolloweeCount: (value: number) => void;
   setFollowerCount: (value: number) => void;
+  setIsLoading: (value: boolean) => void;
 
-  displayErrorMessage(message: string): void;
+  displayErrorMessage: (message: string) => string;
+  displayInfoMessage: (message: string, duration: number) => string;
+  deleteMessage: (messageId: string) => void;
 }
 
 export class UserInfoPresenter {
@@ -73,4 +76,48 @@ export class UserInfoPresenter {
       this.view.displayErrorMessage(`Failed to get followers count because of exception: ${error}`);
     }
   }
+
+  public async followDisplayedUser(
+    authToken: AuthToken,
+    displayedUser: User
+  ) {
+    var followingUserToast: string = "";
+
+    try {
+      this.view.setIsLoading(true);
+      followingUserToast = this.view.displayInfoMessage(
+        `Following ${displayedUser.name}...`,
+        0
+      );
+
+      const [followerCount, followeeCount] = await this.follow(
+        authToken!,
+        displayedUser!,
+      );
+
+      this.view.setIsFollower(true);
+      this.view.setFollowerCount(followerCount);
+      this.view.setFolloweeCount(followeeCount);
+    } catch (error) {
+      this.view.displayErrorMessage(`Failed to follow user because of exception: ${error}`);
+    } finally {
+      this.view.deleteMessage(followingUserToast);
+      this.view.setIsLoading(false);
+    }
+  }
+  
+  public async follow(
+    authToken: AuthToken,
+    userToFollow: User,
+  ): Promise<[followerCount: number, followeeCount: number]> {
+    // Pause so we can see the follow message. Remove when connected to the server
+    await new Promise((f) => setTimeout(f, 2000));
+
+    // Future milestone: Call the server
+
+    const followerCount = await this.getFollowerCount(authToken, userToFollow);
+    const followeeCount = await this.getFolloweeCount(authToken, userToFollow);
+
+    return [followerCount, followeeCount];
+  };
 }
