@@ -29,8 +29,8 @@ Functionalities to refactor:
     - [ ] `getIsFollowerStatus()`
     - [ ] `getFolloweeCount()`
     - [ ] `getFollowerCount()`
-  - [ ] `UserNavigationHook` (I think?)
-    - [ ] `getUser()`
+  - [X] `UserNavigationHook` (I think?)
+    - [X] `getUser()`
 - Others:
   - [ ] `PostStatus`
     - [ ] `submitPost()` (maybe???)
