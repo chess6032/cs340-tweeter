@@ -24,7 +24,9 @@ const UserInfo = () => {
     setFolloweeCount,
     setFollowerCount,
     setIsLoading,
+    setDisplayedUser,
 
+    navigate,
     displayErrorMessage,
     displayInfoMessage,
     deleteMessage
@@ -116,20 +118,22 @@ const UserInfo = () => {
   //   return FakeData.instance.getFollowerCount(user.alias);
   // };
 
-  //////////// PRESENTER ////////////
+  //////////// VIEW/PRESENTER ////////////
   const switchToLoggedInUser = (event: React.MouseEvent): void => {
     event.preventDefault();
-    setDisplayedUser(currentUser!);
-    navigate(`${getBaseUrl()}/${currentUser!.alias}`);
+
+    presenterRef.current!.switchToLoggedInUser(currentUser!, location);
+    // setDisplayedUser(currentUser!);
+    // navigate(`${getBaseUrl()}/${currentUser!.alias}`);
   };
 
   //////////// PRESENTER ////////////
-  const getBaseUrl = (): string => {
-    const segments = location.pathname.split("/@");
-    return segments.length > 1 ? segments[0] : "/";
-  };
+  // const getBaseUrl = (): string => {
+  //   const segments = location.pathname.split("/@");
+  //   return segments.length > 1 ? segments[0] : "/";
+  // };
 
-  ////////////// PRESENTER ////////////
+  ////////////// VIEW/PRESENTER ////////////
   const followDisplayedUser = async (
     event: React.MouseEvent,
   ): Promise<void> => {
@@ -177,7 +181,7 @@ const UserInfo = () => {
   //   return [followerCount, followeeCount];
   // };
 
-  //////////// PRESENTER? SERVICE? VIEW? IDK ////////////
+  //////////// VIEW/PRESENTER ////////////
   const unfollowDisplayedUser = async (
     event: React.MouseEvent,
   ): Promise<void> => {

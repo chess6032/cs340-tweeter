@@ -1,5 +1,6 @@
 import { AuthToken, User } from "tweeter-shared";
 import { UserInfoService } from "../model.service/UserInfoService";
+import { NavigateOptions, To, Location as RRLocation } from "react-router-dom";
 
 
 export interface UserInfoView {
@@ -7,7 +8,9 @@ export interface UserInfoView {
   setFolloweeCount: (value: number) => void;
   setFollowerCount: (value: number) => void;
   setIsLoading: (value: boolean) => void;
-
+  setDisplayedUser: (user: User) => void;
+  
+  navigate: (to: To, options?: NavigateOptions) => void | Promise<void>; 
   displayErrorMessage: (message: string) => string;
   displayInfoMessage: (message: string, duration: number) => string;
   deleteMessage: (messageId: string) => void;
@@ -160,5 +163,15 @@ export class UserInfoPresenter {
     const followeeCount = await this.getFolloweeCount(authToken, userToUnfollow);
 
     return [followerCount, followeeCount];
+  };
+
+  public switchToLoggedInUser(currentUser: User, location: RRLocation<any>) {
+    this.view.setDisplayedUser(currentUser);
+    this.view.navigate(`${this.getBaseUrl(location)}/${currentUser.alias}`);
+  }
+
+  public getBaseUrl(location: RRLocation<any>): string {
+    const segments = location.pathname.split("/@");
+    return segments.length > 1 ? segments[0] : "/";
   };
 }
