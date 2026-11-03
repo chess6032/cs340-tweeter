@@ -7,10 +7,10 @@ import { useUserInfo, useUserInfoActions } from "./UserInfoHooks";
 import { UserInfoPresenter, UserInfoView } from "../../presenter/UserInfoPresenter";
 
 const UserInfo = () => {
-  // const [isFollower, setIsFollower] = useState(false);
-  // const [followeeCount, setFolloweeCount] = useState(-1);
-  // const [followerCount, setFollowerCount] = useState(-1);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isFollower, setIsFollower] = useState(false);
+  const [followeeCount, setFolloweeCount] = useState(-1);
+  const [followerCount, setFollowerCount] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { displayErrorMessage, displayInfoMessage, deleteMessage } = useMessageActions();
 
@@ -20,8 +20,13 @@ const UserInfo = () => {
   const location = useLocation();
 
   const listener: UserInfoView = {
+    setIsFollower,
+    setFolloweeCount,
+    setFollowerCount,
+
     displayErrorMessage
   }
+
   const presenterRef = useRef<UserInfoPresenter | null>(null);
   if (!presenterRef.current) {
     presenterRef.current = new UserInfoPresenter(listener);

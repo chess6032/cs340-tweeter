@@ -3,6 +3,10 @@ import { UserInfoService } from "../model.service/UserInfoService";
 
 
 export interface UserInfoView {
+  setIsFollower: (value: boolean) => void;
+  setFolloweeCount: (value: number) => void;
+  setFollowerCount: (value: number) => void;
+
   displayErrorMessage(message: string): void;
 }
 
@@ -37,9 +41,9 @@ export class UserInfoPresenter {
   ) {
     try {
       if (currentUser === displayedUser) {
-        setIsFollower(false);
+        this.view.setIsFollower(false);
       } else {
-        setIsFollower(
+        this.view.setIsFollower(
           await this.getIsFollowerStatus(authToken!, currentUser!, displayedUser!),
         );
       }
@@ -53,7 +57,7 @@ export class UserInfoPresenter {
     displayedUser: User,
   ) {
     try {
-      setFolloweeCount(await this.getFolloweeCount(authToken, displayedUser));
+      this.view.setFolloweeCount(await this.getFolloweeCount(authToken, displayedUser));
     } catch (error) {
       this.view.displayErrorMessage(`Failed to get followees count because of exception: ${error}`);
     }
@@ -64,7 +68,7 @@ export class UserInfoPresenter {
     displayedUser: User,
   ) {
     try {
-      setFollowerCount(await this.getFollowerCount(authToken, displayedUser));
+      this.view.setFollowerCount(await this.getFollowerCount(authToken, displayedUser));
     } catch (error) {
       this.view.displayErrorMessage(`Failed to get followers count because of exception: ${error}`);
     }
