@@ -1,9 +1,11 @@
 import { AuthenticationPresenter, AuthenticationView } from "./AuthenticationPresenter";
 
 export class LoginPresenter extends AuthenticationPresenter {
+  private originalUrl: string | undefined;
 
-  public constructor(view: AuthenticationView) {
+  public constructor(view: AuthenticationView, originalUrl: string | undefined) {
     super(view);
+    this.originalUrl = originalUrl;
   }
 
   public async login(alias: string, password: string) {
@@ -14,8 +16,8 @@ export class LoginPresenter extends AuthenticationPresenter {
 
       this.service.updateUserInfo(user, user, authToken, this.rememberMe);
 
-      if (!!this.view.originalUrl) {
-        this.view.navigate(this.view.originalUrl);
+      if (this.originalUrl != null) {
+        this.view.navigate(this.originalUrl);
       } else {
         this.view.navigate(`/feed/${user.alias}`);
       }

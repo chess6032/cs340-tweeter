@@ -2,7 +2,6 @@ import { NavigateOptions, To } from "react-router-dom";
 import { AuthenticationService } from "../../model.service/AuthenticationService";
 
 export interface AuthenticationView {
-  originalUrl?: string;
   setIsLoading: (value: boolean) => void;
   navigate: (to: To, options?: NavigateOptions) => void | Promise<void>; 
   // ^ func signature for the func returned by React Router's useNavigate()

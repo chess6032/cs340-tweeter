@@ -27,14 +27,13 @@ const Login = (props: Props) => {
   };
 
   const listener: AuthenticationView = {
-    originalUrl: props.originalUrl,
     setIsLoading,
     navigate,
     displayErrorMessage
   }
 
   // TODO: Do I need to make this a ref?
-  const presenter: LoginPresenter = new LoginPresenter(listener);
+  const presenter: LoginPresenter = new LoginPresenter(listener, props.originalUrl);
 
   const doLogin = () => {
     presenter.login(alias, password);
