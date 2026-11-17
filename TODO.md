@@ -11,7 +11,17 @@ Refactor **every functionality that contacts the server** to use MVP. In total, 
 
 ### TODO
 
-Functionalities to refactor:
+#### Next steps/questions
+
+- Should `UserInfoComponent` be *completely free* of any `useState()` or other React hooks?
+  - (Right now, the state variables *live* in the component, but are *exclusively updated* inside the presenter.)
+    - If I were to leave *this* component as it is now, should I modify my *previous* components to more closely follow this?
+  - If I were to move those into the `UserInfoPresenter`, how do I guarantee they trigger a re-render when they're modified?
+- Should `UserInfoComponent` be decomposed into another class? It's kind of bloated rn.
+- Many of my presenters take a `navigate()` function that has the same signature as that returned by `useNavigate()`. How tf would I structure my code to be completely devoid of this? That is, how would I write page navigation in my presenters so that it would work with theoretically *any* front-end library/framework/API?
+  - (Should I even worry about this?)
+
+#### Functionalities to refactor
 
 - Uses `FakeData`:
   - [X] `App`
@@ -25,10 +35,10 @@ Functionalities to refactor:
     - [X] `register()`
   - [X] `StatusItemScroller`
     - [X] `getUser()`
-  - [ ] `UserInfoComponent`
-    - [ ] `getIsFollowerStatus()`
-    - [ ] `getFolloweeCount()`
-    - [ ] `getFollowerCount()`
+  - [X] `UserInfoComponent`
+    - [X] `getIsFollowerStatus()`
+    - [X] `getFolloweeCount()`
+    - [X] `getFollowerCount()`
   - [X] `UserNavigationHook` (I think?)
     - [X] `getUser()`
 - Others:
