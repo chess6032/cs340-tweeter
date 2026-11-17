@@ -1,6 +1,6 @@
 import { AuthToken, User } from "tweeter-shared";
 import { UserInfoService } from "../model.service/UserInfoService";
-import { NavigateOptions, To, Location as RRLocation } from "react-router-dom";
+import { NavigateOptions, To } from "react-router-dom";
 
 export interface UserInfoView {
   setIsFollower: (value: boolean) => void;
@@ -118,13 +118,14 @@ export class UserInfoPresenter {
     }
   }
 
-  public switchToLoggedInUser(currentUser: User, location: RRLocation<any>) {
+  /** pathname: location.pathname */
+  public switchToLoggedInUser(currentUser: User, pathname: string) {
     this.view.setDisplayedUser(currentUser);
-    this.view.navigate(`${this.getBaseUrl(location)}/${currentUser.alias}`);
+    this.view.navigate(`${this.getBaseUrl(pathname)}/${currentUser.alias}`);
   }
 
-  public getBaseUrl(location: RRLocation<any>): string {
-    const segments = location.pathname.split("/@");
+  public getBaseUrl(pathname: string): string {
+    const segments = pathname.split("/@");
     return segments.length > 1 ? segments[0] : "/";
   };
 }

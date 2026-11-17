@@ -48,7 +48,7 @@ const UserInfo = () => {
 
   const switchToLoggedInUser = (event: React.MouseEvent): void => {
     event.preventDefault();
-    presenterRef.current!.switchToLoggedInUser(currentUser!, location);
+    presenterRef.current!.switchToLoggedInUser(currentUser!, location.pathname);
   };
 
   const followDisplayedUser = async (
