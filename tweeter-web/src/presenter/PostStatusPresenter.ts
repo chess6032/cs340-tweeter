@@ -1,4 +1,5 @@
 import { AuthToken, Status, User } from "tweeter-shared";
+import { PostStatusService } from "../model.service/PostStatusService";
 
 export interface PostStatusView {
   setPost: (val: string) => void;
@@ -18,29 +19,24 @@ export interface PostStatusView {
 
 export class PostStatusPresenter {
   private view: PostStatusView;
+  private service: PostStatusService = new PostStatusService();
 
   public constructor(view: PostStatusView) {
     this.view = view;
   }
 
-  // TODO: move to service?
   public async postStatus (
     authToken: AuthToken,
     newStatus: Status,
   ): Promise<void> {
-    // Pause so we can see the logging out message. Remove when connected to the server
-    await new Promise((f) => setTimeout(f, 2000));
-
-    // Future milestone: Call the server to post the status
+    this.service.postStatus(authToken, newStatus);
   }
 
-  // TODO: is there anything in here I should move to service?
   public async submitPost(
     authToken: AuthToken,
     currentUser: User,
     post: string
   ) {
-
     var postingStatusToastId = "";
 
     try {
@@ -67,5 +63,4 @@ export class PostStatusPresenter {
   public clearPost() {
     this.view.setPost("");
   }
-
 }
