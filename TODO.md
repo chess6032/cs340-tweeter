@@ -20,6 +20,7 @@ Refactor **every functionality that contacts the server** to use MVP. In total, 
 - Should `UserInfoComponent` be decomposed into another class? It's kind of bloated rn.
 - Many of my presenters take a `navigate()` function that has the same signature as that returned by `useNavigate()`. How tf would I structure my code to be completely devoid of this? That is, how would I write page navigation in my presenters so that it would work with theoretically *any* front-end library/framework/API?
   - (Should I even worry about this?)
+- A lot of my presenters' view interfaces have identical function signatures for `displayInfoMessage()`, `displayErrorMessage()`, etc. that are also defined in `MessageActions`. This is code duplication. Is there a cleaner way to have these views use those function signatures, perhaps pulling them directly from `MessageActions` ?
 
 #### Functionalities to refactor
 
@@ -42,9 +43,9 @@ Refactor **every functionality that contacts the server** to use MVP. In total, 
   - [X] `UserNavigationHook` (I think?)
     - [X] `getUser()`
 - Others:
-  - [ ] `PostStatus`
-    - [ ] `submitPost()` (maybe???)
-    - [ ] `postStatus()` (maybe???)
+  - [X] `PostStatus`
+    - [X] `submitPost()` (maybe???)
+    - [X] `postStatus()`
   - [ ] `Logout`
     - This one was explicitly mentioned in the spec but I don't appear to have a Logout component/class...????
   - [X] `Register`
