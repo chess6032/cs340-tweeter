@@ -40,41 +40,6 @@ const PostStatus = () => {
     presenterRef.current!.clearPost();
   }
 
-/////////////////////////////////
-  // // TODO: move to presenter?
-  // // Would have to pass in different parameter besides React.MouseEvent...
-  // const submitPost = async (event: React.MouseEvent) => {
-  //   event.preventDefault();
-
-  //   var postingStatusToastId = "";
-
-  //   try {
-  //     setIsLoading(true);
-  //     postingStatusToastId = displayInfoMessage(
-  //       "Posting status...",
-  //       0,
-  //     );
-
-  //     const status = new Status(post, currentUser!, Date.now());
-
-  //     await presenterRef.current!.postStatus(authToken!, status);
-
-  //     setPost("");
-  //     displayInfoMessage("Status posted!", 2000);
-  //   } catch (error) {
-  //     displayErrorMessage(`Failed to post the status because of exception: ${error}`);
-  //   } finally {
-  //     deleteMessage(postingStatusToastId);
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const clearPost = (event: React.MouseEvent) => {
-  //   event.preventDefault();
-  //   setPost("");
-  // };
-/////////////////////////////////
-
   const checkButtonStatus: () => boolean = () => {
     return !post.trim() || !authToken || !currentUser || isLoading;
   };
